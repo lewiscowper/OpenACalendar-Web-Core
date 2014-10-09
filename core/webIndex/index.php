@@ -37,9 +37,11 @@ $app->before(function (Request $request) use ($app) {
 	$app['currentTimeZone'] = $timezone;
 
 	# ////////////// Permissions
-	$user = userGetCurrent();
-	$app['twig']->addGlobal('canUserCreateSites', ($CONFIG->canCreateSitesVerifiedEditorUsers
-			&& $user && $user->getIsEmailVerified() && $user->getIsEditor()));
+	$userPermissionsRepo = new \repositories\UserPermissionsRepository();
+	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInIndex(userGetCurrent());
+
+
+	$app['twig']->addGlobal('actionCreateSite', $app['currentUserPermissions']->hasPermission("org.openacalendar","CREATE_SITE"));
 
 });
 

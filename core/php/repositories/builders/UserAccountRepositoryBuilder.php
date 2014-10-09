@@ -62,6 +62,20 @@ class UserAccountRepositoryBuilder  extends BaseRepositoryBuilder {
 
 	protected $groupNeeded;
 
+	/** @var UserGroupModel **/
+	protected $inUserGroup;
+
+	/**
+	 * @param \repositories\builders\UserGroupModel $inUserGroup
+	 */
+	public function setInUserGroup($inUserGroup)
+	{
+		$this->inUserGroup = $inUserGroup;
+		return $this;
+	}
+
+
+
 
 	protected function build() {
 
@@ -118,7 +132,13 @@ class UserAccountRepositoryBuilder  extends BaseRepositoryBuilder {
 					"user_watches_group_information.is_watching = '1'";
 			$this->params['group_id'] = $this->watchesGroup->getId();
 		}
-		
+
+		if ($this->inUserGroup) {
+			$this->joins[] = " JOIN user_in_user_group ON user_in_user_group.user_account_id = user_account_information.id ".
+				"AND user_in_user_group.user_group_id = :user_group_id AND user_in_user_group.removed_at IS NULL  ";
+			$this->params['user_group_id'] = $this->inUserGroup->getId();
+		}
+
 	}
 	
 	protected function buildStat() {

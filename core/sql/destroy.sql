@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS permission_in_user_group CASCADE;
+DROP TABLE IF EXISTS user_in_user_group CASCADE;
+DROP TABLE IF EXISTS user_group_in_site CASCADE;
+DROP TABLE IF EXISTS user_group_history CASCADE;
+DROP TABLE IF EXISTS user_group_information CASCADE;
 DROP TABLE IF EXISTS event_has_tag CASCADE;
 DROP TABLE IF EXISTS tag_history CASCADE;
 DROP TABLE IF EXISTS tag_information CASCADE;

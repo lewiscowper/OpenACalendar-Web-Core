@@ -23,7 +23,23 @@ class ExtensionCore extends BaseExtension {
 	public function getTitle() {
 		return 'Core';
 	}	
-	
+
+	public function getUserPermissions() {
+		return array('CREATE_SITE','CALENDAR_EDIT','CALENDAR_ADMINISTRATE','CALENDAR_OWNER');
+	}
+
+	public function getUserPermission($key) {
+		if ($key == 'CREATE_SITE') {
+			return new \userpermissions\CreateSiteUserPermission();
+		} else if ($key == 'CALENDAR_EDIT') {
+			return new \userpermissions\CalendarEditUserPermission();
+		} else if ($key == 'CALENDAR_ADMINISTRATE') {
+			return new \userpermissions\CalendarAdministrateUserPermission();
+		} else if ($key == 'CALENDAR_OWNER') {
+			return new \userpermissions\CalendarOwnerUserPermission();
+		}
+	}
+
 	public function getUserNotificationTypes() {
 		return array('UpcomingEvents','UserWatchesGroupPrompt','UserWatchesGroupNotify',
 			'UserWatchesSiteNotify','UserWatchesSiteGroupPrompt','UserWatchesSitePrompt',
