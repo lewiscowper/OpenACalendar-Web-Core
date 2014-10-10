@@ -8,6 +8,7 @@ use repositories\SiteRepository;
 use repositories\UserInSiteRepository;
 use repositories\UserWatchesSiteRepository;
 use repositories\CountryRepository;
+use Silex\Application;
 
 
 /**
@@ -42,7 +43,12 @@ $app->before(function (Request $request) use ($app) {
 		$app['twig']->addGlobal('currentUserCanEditSite', false);
 		return new Response($app['twig']->render('site/closed_by_sys_admin.html.twig', array()));
 	}
-	
+
+	# ////////////// Permissions
+	$userPermissionsRepo = new \repositories\UserPermissionsRepository();
+	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInSite(userGetCurrent(), $app['currentSite']);
+
+
 	# ////////////// User and their watch and perms
 	$app['currentUserInSite'] = null;
 	$app['currentUserCanAdminSite'] = false;
@@ -100,6 +106,23 @@ $app->before(function (Request $request) use ($app) {
 		$app['twig']->addGlobal('currentSiteHasOneCountry', $app['currentSiteHasOneCountry']);	
 	}
 });
+
+
+$permissionCalendarEditRequired = function(Request $request, Application $app) {
+	global $CONFIG;
+	if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")) {
+		return $app->abort(403); // TODO
+	}
+};
+
+$permissionCalendarAdministratorRequired = function(Request $request, Application $app) {
+	global $CONFIG;
+	if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE")) {
+		return $app->abort(403); // TODO
+	}
+};
+
+
 
 $appUserRequired = function(Request $request) {
 	global $CONFIG;

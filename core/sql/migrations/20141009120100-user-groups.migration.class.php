@@ -125,38 +125,6 @@ class Migration20141009120100 extends Migration {
 				"added_at"=>$timeSource->getFormattedForDataBase(),
 			));
 
-
-			// owner
-
-			$statInsertUserGroupInfo->execute(array(
-				"title"=>"Owners",
-				"is_in_index"=>"0",
-				"is_includes_verified_users"=> "0",
-				"created_at"=>$timeSource->getFormattedForDataBase(),
-			));
-			$data = $statInsertUserGroupInfo->fetch();
-			$ownersID = $data['id'];
-			$statInsertUserGroupHistory->execute(array(
-				"user_group_id"=>$ownersID,
-				"title"=>"Owners",
-				"is_in_index"=>"0",
-				"is_includes_verified_users"=> "0",
-				"created_at"=>$timeSource->getFormattedForDataBase(),
-			));
-
-			$statInsertUserGroupInSite->execute(array(
-				"user_group_id"=>$ownersID,
-				"site_id"=>$site->getId(),
-				"added_at"=>$timeSource->getFormattedForDataBase(),
-			));
-
-			$statInsertPermissionInUserGroup->execute(array(
-				"user_group_id"=>$ownersID,
-				"extension_id"=>"org.openacalendar",
-				"permission_key"=>"CALENDAR_OWNER",
-				"added_at"=>$timeSource->getFormattedForDataBase(),
-			));
-
 			// Users
 			$uarb = new UserAccountRepositoryBuilder();
 			$uarb->setCanEditSite($site);
@@ -171,13 +139,6 @@ class Migration20141009120100 extends Migration {
 				if ($user->getIsSiteAdministrator() || $user->getIsSiteOwner()) {
 					$statInsertUserInUserGroup->execute(array(
 						"user_group_id"=>$adminId,
-						"user_account_id"=>$user->getId(),
-						"added_at"=>$timeSource->getFormattedForDataBase(),
-					));
-				}
-				if ($user->getIsSiteOwner()) {
-					$statInsertUserInUserGroup->execute(array(
-						"user_group_id"=>$ownersID,
 						"user_account_id"=>$user->getId(),
 						"added_at"=>$timeSource->getFormattedForDataBase(),
 					));

@@ -25,7 +25,7 @@ class ExtensionCore extends BaseExtension {
 	}	
 
 	public function getUserPermissions() {
-		return array('CREATE_SITE','CALENDAR_EDIT','CALENDAR_ADMINISTRATE','CALENDAR_OWNER');
+		return array('CREATE_SITE','CALENDAR_EDIT','CALENDAR_ADMINISTRATE');
 	}
 
 	public function getUserPermission($key) {
@@ -35,8 +35,6 @@ class ExtensionCore extends BaseExtension {
 			return new \userpermissions\CalendarEditUserPermission();
 		} else if ($key == 'CALENDAR_ADMINISTRATE') {
 			return new \userpermissions\CalendarAdministrateUserPermission();
-		} else if ($key == 'CALENDAR_OWNER') {
-			return new \userpermissions\CalendarOwnerUserPermission();
 		}
 	}
 

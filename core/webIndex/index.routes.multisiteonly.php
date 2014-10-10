@@ -1,9 +1,7 @@
 <?php
-
-namespace userpermissions;
-
-
 /**
+ *
+ * This contains routes that are available in multi site mode only!
  *
  * @package Core
  * @link http://ican.openacalendar.org/ OpenACalendar Open Source Software
@@ -12,9 +10,8 @@ namespace userpermissions;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 
-class CalendarOwnerUserPermission extends \BaseUserPermission {
 
-	public function getUserPermissionKey() { return 'CALENDAR_OWNER'; }
-
-}
+$app->match('/create', "index\controllers\IndexController::create")
+	->before($permissionCreateSiteRequired)
+	->before($canChangeSite);
 

@@ -4,6 +4,7 @@
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Silex\Application;
 
 
 /**
@@ -45,6 +46,13 @@ $app->before(function (Request $request) use ($app) {
 
 });
 
+
+$permissionCreateSiteRequired = function(Request $request, Application $app) {
+	global $CONFIG;
+	if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CREATE_SITE")) {
+		return new RedirectResponse($CONFIG->getWebIndexDomainSecure().'/you/login');
+	}
+};
 
 $appUserRequired = function(Request $request) {
 	global $CONFIG;
@@ -97,6 +105,7 @@ $canChangeSite = function(Request $request) use ($app) {
 $app->match('/', "index\controllers\IndexController::index");
 
 require APP_ROOT_DIR.'/core/webIndex/index.routes.php';
+require APP_ROOT_DIR.'/core/webIndex/index.routes.multisiteonly.php';
 
 if (!$CONFIG->isDebug) {
 	$app->error(function (\Symfony\Component\HttpKernel\Exception\HttpException $e, $code) use ($app) {

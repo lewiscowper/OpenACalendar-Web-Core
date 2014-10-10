@@ -121,15 +121,11 @@ class SiteRepository {
 			$userGroupEditors = new UserGroupModel();
 			$userGroupEditors->setTitle("Editors");
 			$userGroupEditors->setIsIncludesVerifiedUsers($canAnyUserVerifiedEdit);
-			$ugr->createForSite($site, $userGroupEditors, array(array('org.openacalendar','CALENDAR_EDIT')), array($owner));
+			$ugr->createForSite($site, $userGroupEditors, $owner, array(array('org.openacalendar','CALENDAR_EDIT')), array($owner));
 
 			$userGroupEditors = new UserGroupModel();
 			$userGroupEditors->setTitle("Administrators");
-			$ugr->createForSite($site, $userGroupEditors, array(array('org.openacalendar','CALENDAR_ADMINISTRATE')), array($owner));
-
-			$userGroupEditors = new UserGroupModel();
-			$userGroupEditors->setTitle("Owners");
-			$ugr->createForSite($site, $userGroupEditors, array(array('org.openacalendar','CALENDAR_OWNER')), array($owner));
+			$ugr->createForSite($site, $userGroupEditors, $owner, array(array('org.openacalendar','CALENDAR_ADMINISTRATE')), array($owner));
 
 			// Countries!
 

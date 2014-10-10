@@ -170,8 +170,11 @@ $app->match('/sysadmin/user/{id}/notification', "sysadmin\controllers\UserContro
 
 $app->match('/sysadmin/usergroup', "sysadmin\controllers\UserGroupListController::index");
 
+$app->match('/sysadmin/usergroup/new', "sysadmin\controllers\UserGroupNewController::index");
+
 $app->match('/sysadmin/usergroup/{id}', "sysadmin\controllers\UserGroupController::index")
 		->assert('id', '\d+');
+
 
 
 $app->match('/sysadmin/history', "sysadmin\controllers\HistoryController::index");

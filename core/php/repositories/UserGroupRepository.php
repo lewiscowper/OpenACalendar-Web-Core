@@ -4,6 +4,7 @@
 namespace repositories;
 
 use models\SiteModel;
+use models\UserAccountModel;
 use models\UserGroupModel;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -19,17 +20,15 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class UserGroupRepository {
 
 
-	public function createForSite(SiteModel $site, UserGroupModel $userGroupModel, $initialUserPermissions=array(), $initialUsers=array()) {
+	public function createForSite(SiteModel $site, UserGroupModel $userGroupModel, UserAccountModel $userAccountModel=null, $initialUserPermissions=array(), $initialUsers=array()) {
 		global $DB;
 
 		$inTransaction = $DB->inTransaction();
 
-		// TODO missing fields from user_group_information and user_group_history
-
-		$statInsertUserGroupInfo = $DB->prepare("INSERT INTO user_group_information (title,is_in_index,is_includes_verified_users,created_at) ".
-			"VALUES (:title,'0',:is_includes_verified_users,:created_at) RETURNING id");
-		$statInsertUserGroupHistory = $DB->prepare("INSERT INTO user_group_history (user_group_id,title,is_in_index,is_includes_verified_users,created_at) ".
-			"VALUES (:user_group_id,:title,'0',:is_includes_verified_users,:created_at)");
+		$statInsertUserGroupInfo = $DB->prepare("INSERT INTO user_group_information (title,description,is_in_index,is_includes_anonymous,is_includes_users,is_includes_verified_users,created_at) ".
+			"VALUES (:title,:description,'0',:is_includes_anonymous,:is_includes_users,:is_includes_verified_users,:created_at) RETURNING id");
+		$statInsertUserGroupHistory = $DB->prepare("INSERT INTO user_group_history (user_group_id,title,description,is_in_index,is_includes_anonymous,is_includes_users,is_includes_verified_users,created_at,user_account_id) ".
+			"VALUES (:user_group_id,:title,:description,'0',:is_includes_anonymous,:is_includes_users,:is_includes_verified_users,:created_at,:user_account_id)");
 
 		$statInsertUserGroupInSite = $DB->prepare("INSERT INTO user_group_in_site (user_group_id,site_id,added_at) ".
 			"VALUES (:user_group_id,:site_id,:added_at)");
@@ -44,6 +43,9 @@ class UserGroupRepository {
 			// User Group
 			$statInsertUserGroupInfo->execute(array(
 				"title"=>$userGroupModel->getTitle(),
+				"description"=>$userGroupModel->getDescription(),
+				"is_includes_anonymous"=> $userGroupModel->getIsIncludesAnonymous() ? "1" : "0",
+				"is_includes_users"=> $userGroupModel->getIsIncludesUsers() ? "1" : "0",
 				"is_includes_verified_users"=> $userGroupModel->getIsIncludesVerifiedUsers() ? "1" : "0",
 				"created_at"=>\TimeSource::getFormattedForDataBase(),
 			));
@@ -53,8 +55,12 @@ class UserGroupRepository {
 			$statInsertUserGroupHistory->execute(array(
 				"user_group_id"=>$userGroupModel->getId(),
 				"title"=>$userGroupModel->getTitle(),
+				"description"=>$userGroupModel->getDescription(),
+				"is_includes_anonymous"=> $userGroupModel->getIsIncludesAnonymous() ? "1" : "0",
+				"is_includes_users"=> $userGroupModel->getIsIncludesUsers() ? "1" : "0",
 				"is_includes_verified_users"=> $userGroupModel->getIsIncludesVerifiedUsers() ? "1" : "0",
 				"created_at"=>\TimeSource::getFormattedForDataBase(),
+				"user_account_id"=>($userAccountModel ? $userAccountModel->getId() : null),
 			));
 
 			$statInsertUserGroupInSite->execute(array(
@@ -83,6 +89,49 @@ class UserGroupRepository {
 						"added_at"=>\TimeSource::getFormattedForDataBase(),
 				));
 			}
+
+			if (!$inTransaction) $DB->commit();
+		} catch (Exception $e) {
+			if (!$inTransaction) $DB->rollBack();
+		}
+
+	}
+
+	public function createForIndex(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel=null) {
+		global $DB;
+
+		$inTransaction = $DB->inTransaction();
+
+		$statInsertUserGroupInfo = $DB->prepare("INSERT INTO user_group_information (title,description,is_in_index,is_includes_anonymous,is_includes_users,is_includes_verified_users,created_at) ".
+			"VALUES (:title,:description,'1',:is_includes_anonymous,:is_includes_users,:is_includes_verified_users,:created_at) RETURNING id");
+		$statInsertUserGroupHistory = $DB->prepare("INSERT INTO user_group_history (user_group_id,title,description,is_in_index,is_includes_anonymous,is_includes_users,is_includes_verified_users,created_at,user_account_id) ".
+			"VALUES (:user_group_id,:title,:description,'1',:is_includes_anonymous,:is_includes_users,:is_includes_verified_users,:created_at,:user_account_id)");
+
+		try {
+			if (!$inTransaction) $DB->beginTransaction();
+
+			// User Group
+			$statInsertUserGroupInfo->execute(array(
+				"title"=>$userGroupModel->getTitle(),
+				"description"=>$userGroupModel->getDescription(),
+				"is_includes_anonymous"=> $userGroupModel->getIsIncludesAnonymous() ? "1" : "0",
+				"is_includes_users"=> $userGroupModel->getIsIncludesUsers() ? "1" : "0",
+				"is_includes_verified_users"=> $userGroupModel->getIsIncludesVerifiedUsers() ? "1" : "0",
+				"created_at"=>\TimeSource::getFormattedForDataBase(),
+			));
+			$data = $statInsertUserGroupInfo->fetch();
+			$userGroupModel->setId($data['id']);
+
+			$statInsertUserGroupHistory->execute(array(
+				"user_group_id"=>$userGroupModel->getId(),
+				"title"=>$userGroupModel->getTitle(),
+				"description"=>$userGroupModel->getDescription(),
+				"is_includes_anonymous"=> $userGroupModel->getIsIncludesAnonymous() ? "1" : "0",
+				"is_includes_users"=> $userGroupModel->getIsIncludesUsers() ? "1" : "0",
+				"is_includes_verified_users"=> $userGroupModel->getIsIncludesVerifiedUsers() ? "1" : "0",
+				"created_at"=>\TimeSource::getFormattedForDataBase(),
+				"user_account_id"=>($userAccountModel ? $userAccountModel->getId() : null),
+			));
 
 			if (!$inTransaction) $DB->commit();
 		} catch (Exception $e) {

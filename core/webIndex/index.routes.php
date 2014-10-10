@@ -33,8 +33,6 @@ $app->match('/credits/',"index\controllers\IndexController::credits");
 $app->match('/mytimezone', "index\controllers\IndexController::myTimeZone") ; 
 $app->match('/mytimezone/', "index\controllers\IndexController::myTimeZone") ; 
 
-$app->match('/create', "index\controllers\IndexController::create")
-		->before($canChangeSite);
 
 // Logged out user actions
 // ... routes all under "you" - as they happen to you, the person using the site

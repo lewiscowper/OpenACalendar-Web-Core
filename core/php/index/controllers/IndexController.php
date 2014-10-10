@@ -64,10 +64,6 @@ class IndexController {
 	}
 	
 	function create(Request $request, Application $app) {
-		if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CREATE_SITE")) {
-			$app->abort(403);
-		}
-
 
 		$siteRepository = new SiteRepository();
 				
