@@ -30,12 +30,12 @@ class UserGroupRepository {
 		$statInsertUserGroupHistory = $DB->prepare("INSERT INTO user_group_history (user_group_id,title,description,is_in_index,is_includes_anonymous,is_includes_users,is_includes_verified_users,created_at,user_account_id) ".
 			"VALUES (:user_group_id,:title,:description,'0',:is_includes_anonymous,:is_includes_users,:is_includes_verified_users,:created_at,:user_account_id)");
 
-		$statInsertUserGroupInSite = $DB->prepare("INSERT INTO user_group_in_site (user_group_id,site_id,added_at) ".
-			"VALUES (:user_group_id,:site_id,:added_at)");
-		$statInsertUserInUserGroup = $DB->prepare("INSERT INTO user_in_user_group (user_group_id, user_account_id, added_at) ".
-			"VALUES (:user_group_id, :user_account_id, :added_at)");
-		$statInsertPermissionInUserGroup = $DB->prepare("INSERT INTO permission_in_user_group (user_group_id,extension_id, permission_key,added_at) ".
-			"VALUES (:user_group_id,:extension_id, :permission_key,:added_at)");
+		$statInsertUserGroupInSite = $DB->prepare("INSERT INTO user_group_in_site (user_group_id,site_id,added_at,added_by_user_account_id) ".
+			"VALUES (:user_group_id,:site_id,:added_at,:added_by_user_account_id)");
+		$statInsertUserInUserGroup = $DB->prepare("INSERT INTO user_in_user_group (user_group_id, user_account_id, added_at,added_by_user_account_id) ".
+			"VALUES (:user_group_id, :user_account_id, :added_at, :added_by_user_account_id)");
+		$statInsertPermissionInUserGroup = $DB->prepare("INSERT INTO permission_in_user_group (user_group_id,extension_id, permission_key,added_at,added_by_user_account_id) ".
+			"VALUES (:user_group_id,:extension_id, :permission_key,:added_at,:added_by_user_account_id)");
 
 		try {
 			if (!$inTransaction) $DB->beginTransaction();
@@ -67,6 +67,7 @@ class UserGroupRepository {
 				"user_group_id"=>$userGroupModel->getId(),
 				"site_id"=>$site->getId(),
 				"added_at"=>\TimeSource::getFormattedForDataBase(),
+				"added_by_user_account_id"=>($userAccountModel ? $userAccountModel->getId() : null),
 			));
 
 			// Permissions
@@ -77,6 +78,7 @@ class UserGroupRepository {
 						"extension_id"=>$initialUserPermission[0],
 						"permission_key"=>$initialUserPermission[1],
 						"added_at"=>\TimeSource::getFormattedForDataBase(),
+						"added_by_user_account_id"=>($userAccountModel ? $userAccountModel->getId() : null),
 					));
 				}
 			}
@@ -87,6 +89,7 @@ class UserGroupRepository {
 						"user_group_id"=>$userGroupModel->getId(),
 						"user_account_id"=>$initialUser->getId(),
 						"added_at"=>\TimeSource::getFormattedForDataBase(),
+						"added_by_user_account_id"=>($userAccountModel ? $userAccountModel->getId() : null),
 				));
 			}
 
@@ -137,6 +140,49 @@ class UserGroupRepository {
 		} catch (Exception $e) {
 			if (!$inTransaction) $DB->rollBack();
 		}
+
+	}
+
+	public function addUserToGroup(UserAccountModel $userAccountModel, UserGroupModel $userGroupModel, UserAccountModel $currentUser = null) {
+		global $DB;
+
+		$inTransaction = $DB->inTransaction();
+
+		$statInsertUserInUserGroup = $DB->prepare("INSERT INTO user_in_user_group (user_group_id, user_account_id, added_at, added_by_user_account_id) ".
+			"VALUES (:user_group_id, :user_account_id, :added_at, :added_by_user_account_id)");
+
+		try {
+			if (!$inTransaction) $DB->beginTransaction();
+
+			// TODO check already in
+
+			$statInsertUserInUserGroup->execute(array(
+						"user_group_id"=>$userGroupModel->getId(),
+						"user_account_id"=>$userAccountModel->getId(),
+						"added_at"=>\TimeSource::getFormattedForDataBase(),
+						"added_by_user_account_id"=>($currentUser ? $currentUser->getId() : null),
+				));
+
+
+			if (!$inTransaction) $DB->commit();
+		} catch (Exception $e) {
+			if (!$inTransaction) $DB->rollBack();
+		}
+
+	}
+
+	public function removeUserFromGroup(UserAccountModel $userAccountModel, UserGroupModel $userGroupModel, UserAccountModel $currentUser = null) {
+		global $DB;
+
+		$stat = $DB->prepare("UPDATE user_in_user_group SET removed_at=:removed_at, removed_by_user_account_id=:removed_by_user_account_id WHERE ".
+			"user_group_id=:user_group_id AND user_account_id=:user_account_id AND removed_at IS NULL");
+
+		$stat->execute(array(
+			"user_group_id"=>$userGroupModel->getId(),
+			"user_account_id"=>$userAccountModel->getId(),
+			"removed_at"=>\TimeSource::getFormattedForDataBase(),
+			"removed_by_user_account_id"=>($currentUser ? $currentUser->getId() : null),
+		));
 
 	}
 

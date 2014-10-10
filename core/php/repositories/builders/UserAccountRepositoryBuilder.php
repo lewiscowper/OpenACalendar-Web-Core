@@ -16,22 +16,8 @@ use models\CuratedListModel;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 class UserAccountRepositoryBuilder  extends BaseRepositoryBuilder {
-	
 
-	public $canPermissionSite = null;
-	public $canEditSite = false;
-	public $canAdministrateSite = false;
-	
-	public function setCanEditSite(SiteModel $site) {
-		$this->canEditSite = true;
-		$this->canPermissionSite = $site;
-	}
-	
-	public function setCanAdministrateSite(SiteModel $site) {
-		$this->canAdministrateSite = true;
-		$this->canPermissionSite = $site;
-	}
-	
+
 	protected $requestAccessSite = null;
 
 	public function setRequestAccessSite(SiteModel $site) {
@@ -81,22 +67,7 @@ class UserAccountRepositoryBuilder  extends BaseRepositoryBuilder {
 
 		$this->select[]  = 'user_account_information.*';
 		$this->groupNeeded = false;
-		
-		if ($this->canEditSite || $this->canAdministrateSite) {
-			$this->joins[] = " JOIN user_in_site_information ON user_in_site_information.user_account_id = user_account_information.id ";
-			$this->where[] = "  user_in_site_information.site_id = :user_in_site ";
-			$this->select[] = " user_in_site_information.is_owner AS is_site_owner ";
-			$this->select[] = " user_in_site_information.is_administrator AS is_site_administrator ";
-			$this->select[] = " user_in_site_information.is_editor AS is_site_editor ";
-			$this->params['user_in_site'] = $this->canPermissionSite->getId();
-			if ($this->canAdministrateSite) {
-				$this->where[] = "  ( user_in_site_information.is_administrator = '1' OR user_in_site_information.is_owner = '1'   )";
-			} else if ($this->canEditSite) {
-				$this->where[] = "  ( user_in_site_information.is_editor = '1' OR user_in_site_information.is_administrator = '1' ".
-						"OR user_in_site_information.is_owner = '1'   )";
-			}
-			
-		}
+
 		
 		if ($this->requestAccessSite) {
 			$this->joins[] = " LEFT JOIN user_in_site_information ON user_in_site_information.user_account_id = user_account_information.id ";

@@ -46,8 +46,8 @@ CREATE TABLE user_group_in_site (
 );
 ALTER TABLE user_group_in_site ADD CONSTRAINT user_group_in_site_user_group_id FOREIGN KEY (user_group_id) REFERENCES user_group_information(id);
 ALTER TABLE user_group_in_site ADD CONSTRAINT user_group_in_site_site_id FOREIGN KEY (site_id) REFERENCES site_information(id);
-ALTER TABLE user_group_in_site ADD CONSTRAINT user_group_in_site_added_by_user_account_id FOREIGN KEY (added_by_user_account_id) REFERENCES user_group_information(id);
-ALTER TABLE user_group_in_site ADD CONSTRAINT user_group_in_site_removed_by_user_account_id FOREIGN KEY (removed_by_user_account_id) REFERENCES user_group_information(id);
+ALTER TABLE user_group_in_site ADD CONSTRAINT user_group_in_site_added_by_user_account_id FOREIGN KEY (added_by_user_account_id) REFERENCES user_account_information(id);
+ALTER TABLE user_group_in_site ADD CONSTRAINT user_group_in_site_removed_by_user_account_id FOREIGN KEY (removed_by_user_account_id) REFERENCES user_account_information(id);
 
 CREATE TABLE user_in_user_group (
   user_group_id  INTEGER NOT NULL,

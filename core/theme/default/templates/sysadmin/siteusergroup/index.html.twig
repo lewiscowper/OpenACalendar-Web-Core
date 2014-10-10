@@ -93,5 +93,16 @@
 		{% endfor %}
 	</table>
 
+	<form action="#" method="post" class="action">
+		{{ form_errors(form) }}
+		{{ form_rest(form) }}
+		<input type="submit" name="Do Action" />
+	</form>
+
+	<ul class="actionHelp">
+		<li>addusername  <span class="param">username</a></li>
+		<li>removeusername  <span class="param">username</a></li>
+	</ul>
+
 {% endblock %}
 

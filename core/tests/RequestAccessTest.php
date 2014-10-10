@@ -5,7 +5,6 @@ use models\SiteModel;
 use repositories\UserAccountRepository;
 use repositories\SiteRepository;
 use repositories\SiteAccessRequestRepository;
-use repositories\UserInSiteRepository;
 use repositories\builders\UserAccountRepositoryBuilder;
 use repositories\builders\SiteAccessRequestRepositoryBuilder;
 
@@ -18,8 +17,9 @@ use repositories\builders\SiteAccessRequestRepositoryBuilder;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 class RequestAccessTest extends \PHPUnit_Framework_TestCase {
-	
+
 	function testSearch1() {
+		$this->assertEquals(true, false); // TODO
 		$DB = getNewTestDB();
 
 		$userOwner = new UserAccountModel();
@@ -150,6 +150,7 @@ class RequestAccessTest extends \PHPUnit_Framework_TestCase {
 	
 	
 	function testSearch2() {
+		$this->assertEquals(true, false); // TODO
 		$DB = getNewTestDB();
 
 		$userOwner = new UserAccountModel();

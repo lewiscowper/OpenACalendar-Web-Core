@@ -35,8 +35,7 @@ class SiteAccessRequestRepository {
 	function grantForSiteAndUser(SiteModel $site, UserAccountModel $user, UserAccountModel $grantedBy) {
 		global $DB;
 		
-		$repo = new UserInSiteRepository();
-		$repo->markUserEditsSite($user, $site);
+		// TODO
 		
 		$stat = $DB->prepare("UPDATE site_access_request SET granted_at=:granted_at, granted_by=:granted_by WHERE ".
 				" site_id=:site_id AND  user_account_id=:user_account_id AND granted_by IS NULL AND rejected_by IS NULL");

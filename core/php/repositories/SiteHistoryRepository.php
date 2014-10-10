@@ -70,10 +70,6 @@ class SiteHistoryRepository {
 			$sqlFields[] = " is_web_robots_allowed_changed = :is_web_robots_allowed_changed ";
 			$sqlParams['is_web_robots_allowed_changed'] = $sitehistory->getIsWebRobotsAllowedChanged() ? 1 : -1;
 		}
-		if ($sitehistory->getIsAlUsersEditorsChangedKnown()) {
-			$sqlFields[] = " is_all_users_editors_changed = :is_all_users_editors_changed ";
-			$sqlParams['is_all_users_editors_changed'] = $sitehistory->getIsAlUsersEditorsChanged() ? 1 : -1;
-		}
 		if ($sitehistory->getIsClosedBySysAdminChangedKnown()) {
 			$sqlFields[] = " is_closed_by_sys_admin_changed = :is_closed_by_sys_admin_changed ";
 			$sqlParams['is_closed_by_sys_admin_changed'] = $sitehistory->getIsClosedBySysAdminChanged() ? 1 : -1;

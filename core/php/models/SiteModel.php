@@ -25,7 +25,6 @@ class SiteModel {
 	protected $footer_text;
 	protected $is_web_robots_allowed = true;
 	protected $is_closed_by_sys_admin = false;
-	protected $is_all_users_editors = true;
 	protected $is_listed_in_index = true;
 	protected $closed_by_sys_admin_reason;
 	protected $is_request_access_allowed = false;
@@ -59,7 +58,6 @@ class SiteModel {
 		$this->is_web_robots_allowed = $data['is_web_robots_allowed'];
 		$this->is_closed_by_sys_admin = $data['is_closed_by_sys_admin'];
 		$this->closed_by_sys_admin_reason = $data['closed_by_sys_admin_reason'];
-		$this->is_all_users_editors = $data['is_all_users_editors'];
 		$this->is_listed_in_index = $data['is_listed_in_index'];
 		$this->cached_is_multiple_countries = $data['cached_is_multiple_countries'];
 		$this->cached_is_multiple_timezones = $data['cached_is_multiple_timezones'];
@@ -143,14 +141,8 @@ class SiteModel {
 	public function setClosedBySysAdminreason($closed_by_sys_admin_reason) {
 		$this->closed_by_sys_admin_reason = $closed_by_sys_admin_reason;
 	}
-	
-	public function getIsAllUsersEditors() {
-		return $this->is_all_users_editors;
-	}
 
-	public function setIsAllUsersEditors($is_all_users_editors) {
-		$this->is_all_users_editors = $is_all_users_editors;
-	}
+
 	
 	public function getIsListedInIndex() {
 		return $this->is_listed_in_index;

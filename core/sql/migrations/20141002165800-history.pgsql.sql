@@ -10,9 +10,6 @@ ALTER TABLE site_history ALTER COLUMN is_web_robots_allowed DROP NOT NULL;
 ALTER TABLE site_history ALTER COLUMN is_closed_by_sys_admin DROP DEFAULT;
 ALTER TABLE site_history ALTER COLUMN is_closed_by_sys_admin DROP NOT NULL;
 
-ALTER TABLE site_history ALTER COLUMN is_all_users_editors DROP DEFAULT;
-ALTER TABLE site_history ALTER COLUMN is_all_users_editors DROP NOT NULL;
-
 ALTER TABLE site_history ALTER COLUMN is_listed_in_index DROP DEFAULT;
 ALTER TABLE site_history ALTER COLUMN is_listed_in_index DROP NOT NULL;
 

@@ -20,7 +20,6 @@ class SiteHistoryModel extends SiteModel {
 	protected $footer_text_changed = 0;
 	protected $is_web_robots_allowed_changed = 0;
 	protected $is_closed_by_sys_admin_changed = 0;
-	protected $is_all_users_editors_changed = 0;
 	protected $closed_by_sys_admin_reason_changed = 0;
 	protected $is_listed_in_index_changed = 0;
 	protected $is_request_access_allowed_changed = 0;
@@ -46,7 +45,6 @@ class SiteHistoryModel extends SiteModel {
 		$this->footer_text = isset($data['footer_text']) ? $data['footer_text'] : null;
 		$this->is_web_robots_allowed = isset($data['is_web_robots_allowed']) ? $data['is_web_robots_allowed'] : null;
 		$this->is_closed_by_sys_admin = isset($data['is_closed_by_sys_admin']) ? $data['is_closed_by_sys_admin'] : null;
-		$this->is_all_users_editors = isset($data['is_all_users_editors']) ? $data['is_all_users_editors'] : null;
 		$this->closed_by_sys_admin_reason = isset($data['closed_by_sys_admin_reason']) ? $data['closed_by_sys_admin_reason'] : null;
 		$this->is_listed_in_index = isset($data['is_listed_in_index']) ? $data['is_listed_in_index'] : null;
 		$this->is_request_access_allowed = isset($data['is_request_access_allowed']) ? $data['is_request_access_allowed'] : null;
@@ -67,7 +65,6 @@ class SiteHistoryModel extends SiteModel {
 		$this->footer_text_changed  = isset($data['footer_text_changed']) ? $data['footer_text_changed'] : 0;
 		$this->is_web_robots_allowed_changed  = isset($data['is_web_robots_allowed_changed']) ? $data['is_web_robots_allowed_changed'] : 0;
 		$this->is_closed_by_sys_admin_changed  = isset($data['is_closed_by_sys_admin_changed']) ? $data['is_closed_by_sys_admin_changed'] : 0;
-		$this->is_all_users_editors_changed  = isset($data['is_all_users_editors_changed']) ? $data['is_all_users_editors_changed'] : 0;
 		$this->closed_by_sys_admin_reason_changed  = isset($data['closed_by_sys_admin_reason_changed']) ? $data['closed_by_sys_admin_reason_changed'] : 0;
 		$this->is_listed_in_index_changed  = isset($data['is_listed_in_index_changed']) ? $data['is_listed_in_index_changed'] : 0;
 		$this->is_request_access_allowed_changed = isset($data['is_request_access_allowed_changed']) ? $data['is_request_access_allowed_changed'] : 0;
@@ -91,8 +88,7 @@ class SiteHistoryModel extends SiteModel {
 			$this->footer_text_changed == 0 || 
 			$this->is_web_robots_allowed_changed == 0 || 
 			$this->is_closed_by_sys_admin_changed == 0 || 
-			$this->is_all_users_editors_changed == 0 || 
-			$this->closed_by_sys_admin_reason_changed == 0 || 
+			$this->closed_by_sys_admin_reason_changed == 0 ||
 			$this->is_listed_in_index_changed == 0 || 
 			$this->is_request_access_allowed_changed == 0 || 
 			$this->request_access_question_changed == 0 || 
@@ -114,7 +110,6 @@ class SiteHistoryModel extends SiteModel {
 		$this->footer_text_changed  =  $this->footer_text ? 1 : -1;
 		$this->is_web_robots_allowed_changed  = 1;
 		$this->is_closed_by_sys_admin_changed  = 1;
-		$this->is_all_users_editors_changed  = 1;
 		$this->closed_by_sys_admin_reason_changed  =  $this->closed_by_sys_admin_reason ? 1 : -1;
 		$this->is_listed_in_index_changed  = 1;
 		$this->is_request_access_allowed_changed = 1;
@@ -148,9 +143,6 @@ class SiteHistoryModel extends SiteModel {
 		}
 		if ($this->is_closed_by_sys_admin_changed == 0 && $last->is_closed_by_sys_admin_changed != -2) {
 			$this->is_closed_by_sys_admin_changed   = ($this->is_closed_by_sys_admin  != $last->is_closed_by_sys_admin  )? 1 : -1;
-		}
-		if ($this->is_all_users_editors_changed == 0 && $last->is_all_users_editors_changed != -2) {
-			$this->is_all_users_editors_changed   = ($this->is_all_users_editors  != $last->is_all_users_editors  )? 1 : -1;
 		}
 		if ($this->closed_by_sys_admin_reason_changed == 0 && $last->closed_by_sys_admin_reason_changed != -2) {
 			$this->closed_by_sys_admin_reason_changed   =  ($this->closed_by_sys_admin_reason  != $last->closed_by_sys_admin_reason  )? 1 : -1;
@@ -237,14 +229,6 @@ class SiteHistoryModel extends SiteModel {
 
 	public function getIsClosedBySysAdminChangedKnown() {
 		return ($this->is_closed_by_sys_admin_changed > -2);
-	}
-
-	public function getIsAlUsersEditorsChanged() {
-		return ($this->is_all_users_editors_changed > -1);
-	}
-
-	public function getIsAlUsersEditorsChangedKnown() {
-		return ($this->is_all_users_editors_changed > -2);
 	}
 
 	public function getClosedBySyAdminReasonChanged() {

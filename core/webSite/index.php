@@ -38,43 +38,27 @@ $app->before(function (Request $request) use ($app) {
 		return new Response($app['twig']->render('site/closed_by_sys_admin.html.twig', array()));
 	}
 
-	# ////////////// Permissions
+	# ////////////// Permissions and Watch
 	$userPermissionsRepo = new \repositories\UserPermissionsRepository();
 	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInSite(userGetCurrent(), $app['currentSite']);
 
 
 	# ////////////// User and their watch and perms
 	$app['currentUserInSite'] = null;
-	$app['currentUserCanAdminSite'] = false;
-	$app['currentUserCanEditSite'] = false;
-	$app['currentUserOwnsSite'] = false;
-	$app['currentUserWatchesSite'] = false;
+	$app['currentUserCanAdminSite'] = false; // TODO
+	$app['currentUserCanEditSite'] = false; // TODO
+	$app['currentUserOwnsSite'] = false; // TODO
+	$app['currentUserWatchesSite'] = false; // TODO
 	if (userGetCurrent()) {
-		$uisr = new UserInSiteRepository();
-		$app['currentUserInSite'] = $uisr->loadBySiteAndUserAccount($app['currentSite'], userGetCurrent());
-		if (userGetCurrent()->getIsEmailVerified() && userGetCurrent()->getIsEditor()) {
-			if ($app['currentUserInSite'] && $app['currentUserInSite']->getIsOwner()) {
-				$app['currentUserOwnsSite'] = true;
-				$app['currentUserCanEditSite'] = true;
-				$app['currentUserCanAdminSite'] = true;
-			} else if ($app['currentUserInSite'] && $app['currentUserInSite']->getIsAdministrator()) {
-				$app['currentUserCanEditSite'] = true;
-				$app['currentUserCanAdminSite'] = true;
-			} else if ($app['currentSite']->getIsAllUsersEditors() ) {
-				$app['currentUserCanEditSite'] = true;
-			} else if ($app['currentUserInSite'] && $app['currentUserInSite']->getIsEditor()) {
-				$app['currentUserCanEditSite'] = true;
-			};
-		}
 		$uwsr = new UserWatchesSiteRepository();
 		$uws = $uwsr->loadByUserAndSite(userGetCurrent(), $app['currentSite']);
 		$app['currentUserWatchesSite'] = $uws && $uws->getIsWatching();
 	}
-	$app['twig']->addGlobal('currentUserInSite', $app['currentUserInSite']);
-	$app['twig']->addGlobal('currentUserCanAdminSite', $app['currentUserCanAdminSite']);
-	$app['twig']->addGlobal('currentUserCanEditSite', $app['currentUserCanEditSite']);
-	$app['twig']->addGlobal('currentUserOwnsSite', $app['currentUserOwnsSite']);
-	$app['twig']->addGlobal('currentUserWatchesSite', $app['currentUserWatchesSite']);
+	$app['twig']->addGlobal('currentUserInSite', $app['currentUserInSite']); // TODO
+	$app['twig']->addGlobal('currentUserCanAdminSite', $app['currentUserCanAdminSite']); // TODO
+	$app['twig']->addGlobal('currentUserCanEditSite', $app['currentUserCanEditSite']); // TODO
+	$app['twig']->addGlobal('currentUserOwnsSite', $app['currentUserOwnsSite']); // TODO
+	$app['twig']->addGlobal('currentUserWatchesSite', $app['currentUserWatchesSite']); // TODO
 	
 	# ////////////// Store sites seen for this user so can do nice page in index
 	// except we don't bother doing this in the API
@@ -146,45 +130,6 @@ $appVerifiedUserRequired = function(Request $request) {
 	}
 	if (!userGetCurrent()->getIsEmailVerified()) {
 		return new RedirectResponse('http://'.$CONFIG->webIndexDomain.'/me/verifyneeded');
-	}
-};
-
-$appVerifiedEditorUserRequired = function(Request $request)  use ($app) {
-	global $CONFIG;	
-	if (!userGetCurrent()) {
-		return new RedirectResponse($CONFIG->getWebIndexDomainSecure().'/you/login');
-	}
-	if (!userGetCurrent()->getIsEmailVerified()) {
-		return new RedirectResponse('http://'.$CONFIG->webIndexDomain.'/me/verifyneeded');
-	}
-	if (!$app['currentUserCanEditSite']) {
-		die("No"); // TODO
-	}
-};
-
-$appVerifiedAdminUserRequired = function(Request $request) use ($app) {
-	global $CONFIG;	
-	if (!userGetCurrent()) {
-		return new RedirectResponse($CONFIG->getWebIndexDomainSecure().'/you/login');
-	}
-	if (!userGetCurrent()->getIsEmailVerified()) {
-		return new RedirectResponse('http://'.$CONFIG->webIndexDomain.'/me/verifyneeded');
-	}
-	if (!$app['currentUserCanAdminSite']) {
-		die("No"); // TODO
-	}
-};
-
-$appVerifiedOwnerUserRequired = function(Request $request) use ($app) {
-	global $CONFIG;	
-	if (!userGetCurrent()) {
-		return new RedirectResponse($CONFIG->getWebIndexDomainSecure().'/you/login');
-	}
-	if (!userGetCurrent()->getIsEmailVerified()) {
-		return new RedirectResponse('http://'.$CONFIG->webIndexDomain.'/me/verifyneeded');
-	}
-	if (!$app['currentUserOwnsSite']) {
-		die("No"); // TODO
 	}
 };
 

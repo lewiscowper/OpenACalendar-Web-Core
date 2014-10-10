@@ -6,7 +6,6 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use repositories\UserAccountRepository;
 use repositories\SiteAccessRequestRepository;
-use repositories\UserInSiteRepository;
 use repositories\builders\SiteAccessRequestRepositoryBuilder;
 
 
@@ -52,12 +51,9 @@ class AdminUserController {
 			}
 			return $app->redirect("/admin/users");
 		}
-		
-		$repo = new UserInSiteRepository();
-		$uis = $repo->loadBySiteAndUserAccount($app['currentSite'], $this->parameters['user']);
-		$this->parameters['userIsSiteOwner'] = ($uis && $uis->getIsOwner());
-		$this->parameters['userIsSiteAdministrator'] = ($uis && ($uis->getIsOwner() || $uis->getIsAdministrator()));
-		$this->parameters['userIsSiteEditor'] = ($uis && ($uis->getIsOwner() || $uis->getIsAdministrator() || $uis->getIsEditor()));
+
+		// TODO
+
 		
 		$b = new SiteAccessRequestRepositoryBuilder();
 		$b->setSite($app['currentSite']);

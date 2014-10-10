@@ -29,7 +29,7 @@ $app->get('/api2/area/{slug}/info.json', "siteapi2\controllers\AreaController::i
 		->assert('slug', '\d+'); 
 $app->post('/api2/area/{slug}/info.json', "siteapi2\controllers\AreaController::postInfoJson")
 		->before($appUserRequired)
-		->before($appVerifiedEditorUserRequired)
+		->before($appVerifiedEditorUserRequired) // TODO
 		->assert('slug', '\d+'); 
 
 ## Venue

@@ -35,7 +35,7 @@ class SiteDBAccess {
 	}
 
 	protected $possibleFields = array('title','slug','description_text','footer_text','is_web_robots_allowed',
-		'is_all_users_editors','is_closed_by_sys_admin','closed_by_sys_admin_reason','is_listed_in_index','request_access_question',
+		'is_closed_by_sys_admin','closed_by_sys_admin_reason','is_listed_in_index','request_access_question',
 		'is_request_access_allowed','is_feature_importer','is_feature_curated_list','is_feature_map','is_feature_virtual_events',
 		'is_feature_physical_events','is_feature_group','prompt_emails_days_in_advance','is_feature_tag');
 
@@ -68,8 +68,6 @@ class SiteDBAccess {
 				$fieldsParams1['footer_text'] = $site->getFooterText();
 			} else if ($field == 'is_web_robots_allowed') {
 				$fieldsParams1['is_web_robots_allowed'] = $site->getIsWebRobotsAllowed() ? 1 : 0;
-			} else if ($field == 'is_all_users_editors') {
-				$fieldsParams1['is_all_users_editors'] = $site->getIsAllUsersEditors() ? 1 : 0;
 			} else if ($field == 'is_closed_by_sys_admin') {
 				$fieldsParams1['is_closed_by_sys_admin'] = $site->getIsClosedBySysAdmin() ? 1 : 0;
 			} else if ($field == 'closed_by_sys_admin_reason') {
@@ -124,8 +122,6 @@ class SiteDBAccess {
 					$fieldsParams2['footer_text'] = $site->getFooterText();
 				} else if ($field == 'is_web_robots_allowed') {
 					$fieldsParams2['is_web_robots_allowed'] = $site->getIsWebRobotsAllowed() ? 1 : 0;
-				} else if ($field == 'is_all_users_editors') {
-					$fieldsParams2['is_all_users_editors'] = $site->getIsAllUsersEditors() ? 1 : 0;
 				} else if ($field == 'is_closed_by_sys_admin') {
 					$fieldsParams2['is_closed_by_sys_admin'] = $site->getIsClosedBySysAdmin() ? 1 : 0;
 				} else if ($field == 'closed_by_sys_admin_reason') {

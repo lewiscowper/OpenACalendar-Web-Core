@@ -44,7 +44,6 @@ class SiteHistoryTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(false,  $siteHistory->getFooterTextChanged());
 		$this->assertEquals(true,  $siteHistory->getIsWebRobotsAllowedChanged());
 		$this->assertEquals(true,  $siteHistory->getIsClosedBySysAdminChanged());
-		$this->assertEquals(true,  $siteHistory->getIsAlUsersEditorsChanged());
 		$this->assertEquals(false,  $siteHistory->getClosedBySyAdminReasonChanged());
 		$this->assertEquals(true,  $siteHistory->getIsListedInIndexChanged());
 		$this->assertEquals(true,  $siteHistory->getIsRequestAccesAllowedChanged());
@@ -91,7 +90,6 @@ class SiteHistoryTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(true,  $siteHistory->getFooterTextChanged());
 		$this->assertEquals(false,  $siteHistory->getIsWebRobotsAllowedChanged());
 		$this->assertEquals(false,  $siteHistory->getIsClosedBySysAdminChanged());
-		$this->assertEquals(false,  $siteHistory->getIsAlUsersEditorsChanged());
 		$this->assertEquals(false,  $siteHistory->getClosedBySyAdminReasonChanged());
 		$this->assertEquals(false,  $siteHistory->getIsListedInIndexChanged());
 		$this->assertEquals(false,  $siteHistory->getIsRequestAccesAllowedChanged());

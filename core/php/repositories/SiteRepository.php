@@ -225,7 +225,7 @@ class SiteRepository {
 		try {
 			$DB->beginTransaction();
 
-			$fields = array('title','description_text','footer_text','is_web_robots_allowed','is_all_users_editors',
+			$fields = array('title','description_text','footer_text','is_web_robots_allowed',
 				'is_closed_by_sys_admin','is_listed_in_index','is_request_access_allowed','closed_by_sys_admin_reason',
 				'request_access_question','is_feature_curated_list','is_feature_importer','is_feature_map',
 				'is_feature_tag','is_feature_virtual_events','is_feature_physical_events','is_feature_group',
