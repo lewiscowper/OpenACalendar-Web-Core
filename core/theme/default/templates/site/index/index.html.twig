@@ -41,7 +41,8 @@
 		{% endif %}
 		<li><a href="/history"><div class="iconHistoryLarge"></div> Recent Changes</a></li>
 	</ul>
-		
+
+	{# TODO
 	{% if not currentUserCanEditSite and currentUser is not null and currentUser.isSiteRequestAccessAllowed and currentSite.isRequestAccessAllowed %}
 		<div class="requestAccessWrapper">
 			<p>Do you want to edit this calendar?</p>
@@ -58,6 +59,8 @@
 			</form>
 		</div>
 	{% endif %}
+	#}
+
 {% endblock %}
 
 
@@ -79,7 +82,7 @@
 		{% else %}
 			<p>
 				There are no upcoming events.
-				{% if currentUserCanEditSite %}Why not <a href="/event/new">add one</a>?{% endif %}
+				{% if currentUserActions.has("org.openacalendar","eventNew") %}Why not <a href="/event/new">add one</a>?{% endif %}
 			</p>
 		{% endfor %}
 	</ul>

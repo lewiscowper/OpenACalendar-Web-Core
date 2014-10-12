@@ -1,6 +1,7 @@
 <?php
 
 namespace db\migrations;
+use models\SiteModel;
 use repositories\builders\SiteRepositoryBuilder;
 use repositories\builders\UserAccountRepositoryBuilder;
 
@@ -60,15 +61,17 @@ class Migration20141009120100 extends Migration {
 		));
 
 		// SITE
-		$srb = new SiteRepositoryBuilder();
-		foreach($srb->fetchAll() as $site) {
+		$statListSites = $db->prepare("SELECT * FROM site_information");
+		$statListSites->execute();
+
+		while($site = $statListSites->fetch()) {
 
 			// edit
 
 			$statInsertUserGroupInfo->execute(array(
 				"title"=>"Editors",
 				"is_in_index"=>"0",
-				"is_includes_verified_users"=> $site->getIsAllUsersEditors() ? "1" : "0",
+				"is_includes_verified_users"=> $site['is_all_users_editors'] ? "1" : "0",
 				"created_at"=>$timeSource->getFormattedForDataBase(),
 			));
 			$data = $statInsertUserGroupInfo->fetch();
@@ -77,13 +80,13 @@ class Migration20141009120100 extends Migration {
 				"user_group_id"=>$editId,
 				"title"=>"Editors",
 				"is_in_index"=>"0",
-				"is_includes_verified_users"=> $site->getIsAllUsersEditors() ? "1" : "0",
+				"is_includes_verified_users"=> $site['is_all_users_editors'] ? "1" : "0",
 				"created_at"=>$timeSource->getFormattedForDataBase(),
 			));
 
 			$statInsertUserGroupInSite->execute(array(
 				"user_group_id"=>$editId,
-				"site_id"=>$site->getId(),
+				"site_id"=>$site['id'],
 				"added_at"=>$timeSource->getFormattedForDataBase(),
 			));
 
@@ -114,7 +117,7 @@ class Migration20141009120100 extends Migration {
 
 			$statInsertUserGroupInSite->execute(array(
 				"user_group_id"=>$adminId,
-				"site_id"=>$site->getId(),
+				"site_id"=>$site['id'],
 				"added_at"=>$timeSource->getFormattedForDataBase(),
 			));
 
@@ -126,20 +129,23 @@ class Migration20141009120100 extends Migration {
 			));
 
 			// Users
-			$uarb = new UserAccountRepositoryBuilder();
-			$uarb->setCanEditSite($site);
-			foreach($uarb->fetchAll() as $user) {
-				if ($user->getIsSiteEditor() || $user->getIsSiteAdministrator() || $user->getIsSiteOwner()) {
+			$statUsers = $db->prepare("SELECT * FROM user_in_site_information WHERE site_id=:site_id");
+			$statUsers->execute(array('site_id'=>$site['id']));
+			while($user = $statUsers->fetch()) {
+				$isEditor = $user['is_editor'];
+				$isAdmin = $user['is_administrator'];
+				$isOwner = $user['is_owner'];
+				if ($isEditor || $isAdmin || $isOwner) {
 					$statInsertUserInUserGroup->execute(array(
 						"user_group_id"=>$editId,
-						"user_account_id"=>$user->getId(),
+						"user_account_id"=>$user['user_account_id'],
 						"added_at"=>$timeSource->getFormattedForDataBase(),
 					));
 				}
-				if ($user->getIsSiteAdministrator() || $user->getIsSiteOwner()) {
+				if ($isAdmin || $isOwner) {
 					$statInsertUserInUserGroup->execute(array(
 						"user_group_id"=>$adminId,
-						"user_account_id"=>$user->getId(),
+						"user_account_id"=>$user['user_account_id'],
 						"added_at"=>$timeSource->getFormattedForDataBase(),
 					));
 				}

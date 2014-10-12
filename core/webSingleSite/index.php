@@ -50,23 +50,16 @@ $app->before(function (Request $request) use ($app) {
 
 
 	# ////////////// User and their watch and perms
-	$app['currentUserInSite'] = null;
-	$app['currentUserCanAdminSite'] = false; // TODO
-	$app['currentUserCanEditSite'] = false; // TODO
-	$app['currentUserOwnsSite'] = false; // TODO
-	$app['currentUserWatchesSite'] = false; // TODO
+	$app['currentUserActions'] = new UserActionsSiteList($app['currentSite'], $app['currentUserPermissions']);
 	if (userGetCurrent()) {
 		$uwsr = new UserWatchesSiteRepository();
 		$uws = $uwsr->loadByUserAndSite(userGetCurrent(), $app['currentSite']);
 		$app['currentUserWatchesSite'] = $uws && $uws->getIsWatching();
 	}
-	$app['twig']->addGlobal('currentUserInSite', $app['currentUserInSite']); // TODO
-	$app['twig']->addGlobal('currentUserCanAdminSite', $app['currentUserCanAdminSite']); // TODO
-	$app['twig']->addGlobal('currentUserCanEditSite', $app['currentUserCanEditSite']); // TODO
-	$app['twig']->addGlobal('currentUserOwnsSite', $app['currentUserOwnsSite']); // TODO
-	$app['twig']->addGlobal('currentUserWatchesSite', $app['currentUserWatchesSite']); // TODO
-	
-	
+	$app['twig']->addGlobal('currentUserActions', $app['currentUserActions']);
+	$app['twig']->addGlobal('currentUserWatchesSite', $app['currentUserWatchesSite']);
+
+
 	# ////////////// Timezone
 	$timezone = "";
 	if (isset($_GET['mytimezone']) && in_array($_GET['mytimezone'], $app['currentSite']->getCachedTimezonesAsList())) {
