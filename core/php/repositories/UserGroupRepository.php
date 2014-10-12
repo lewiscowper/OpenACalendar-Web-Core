@@ -243,15 +243,15 @@ class UserGroupRepository {
 
 	}
 
-	public function editIsIncludesAnonymous(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel) {
+	public function editIsIncludesAnonymous(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel = null) {
 		$this->userGroupDBAccess->update($userGroupModel, array('is_includes_anonymous'), $userAccountModel);
 	}
 
-	public function editIsIncludesUser(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel) {
+	public function editIsIncludesUser(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel = null) {
 		$this->userGroupDBAccess->update($userGroupModel, array('is_includes_users'), $userAccountModel);
 	}
 
-	public function editIsIncludesVerifiedUser(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel) {
+	public function editIsIncludesVerifiedUser(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel = null) {
 		$this->userGroupDBAccess->update($userGroupModel, array('is_includes_verified_users'), $userAccountModel);
 	}
 

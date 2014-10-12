@@ -56,7 +56,7 @@ class SiteUserGroupController {
 				$permission = $extension->getUserPermission($request->request->get("permission"));
 				if ($permission) {
 					$ugr = new UserGroupRepository();
-					$ugr->addPermissionToGroup($permission, $this->parameters['usergroup']);
+					$ugr->addPermissionToGroup($permission, $this->parameters['usergroup'], userGetCurrent());
 					return $app->redirect('/sysadmin/site/'.$this->parameters['site']->getId().'/usergroup/'.$this->parameters['usergroup']->getId());
 				}
 			}
@@ -66,7 +66,7 @@ class SiteUserGroupController {
 				$permission = $extension->getUserPermission($request->request->get("permission"));
 				if ($permission) {
 					$ugr = new UserGroupRepository();
-					$ugr->removePermissionFromGroup($permission, $this->parameters['usergroup']);
+					$ugr->removePermissionFromGroup($permission, $this->parameters['usergroup'], userGetCurrent());
 					return $app->redirect('/sysadmin/site/'.$this->parameters['site']->getId().'/usergroup/'.$this->parameters['usergroup']->getId());
 				}
 			}
@@ -87,7 +87,7 @@ class SiteUserGroupController {
 					$user = $uar->loadByUserName($action->getParam(0));
 					if ($user) {
 						$ugr = new UserGroupRepository();
-						$ugr->addUserToGroup($user, $this->parameters['usergroup'], userGetCurrent());
+						$ugr->addUserToGroup($user, $this->parameters['usergroup'], userGetCurrent(), userGetCurrent());
 						return $app->redirect('/sysadmin/site/'.$this->parameters['site']->getId().'/usergroup/'.$this->parameters['usergroup']->getId());
 					}
 
@@ -96,7 +96,7 @@ class SiteUserGroupController {
 					$user = $uar->loadByUserName($action->getParam(0));
 					if ($user) {
 						$ugr = new UserGroupRepository();
-						$ugr->removeUserFromGroup($user, $this->parameters['usergroup'], userGetCurrent());
+						$ugr->removeUserFromGroup($user, $this->parameters['usergroup'], userGetCurrent(), userGetCurrent());
 						return $app->redirect('/sysadmin/site/'.$this->parameters['site']->getId().'/usergroup/'.$this->parameters['usergroup']->getId());
 					}
 

@@ -49,7 +49,7 @@ class UserGroupController {
 				$permission = $extension->getUserPermission($request->request->get("permission"));
 				if ($permission) {
 					$ugr = new UserGroupRepository();
-					$ugr->addPermissionToGroup($permission, $this->parameters['usergroup']);
+					$ugr->addPermissionToGroup($permission, $this->parameters['usergroup'], userGetCurrent());
 					return $app->redirect('/sysadmin/usergroup/'.$this->parameters['usergroup']->getId());
 				}
 			}
@@ -59,7 +59,7 @@ class UserGroupController {
 				$permission = $extension->getUserPermission($request->request->get("permission"));
 				if ($permission) {
 					$ugr = new UserGroupRepository();
-					$ugr->removePermissionFromGroup($permission, $this->parameters['usergroup']);
+					$ugr->removePermissionFromGroup($permission, $this->parameters['usergroup'], userGetCurrent());
 					return $app->redirect('/sysadmin/usergroup/'.$this->parameters['usergroup']->getId());
 				}
 			}

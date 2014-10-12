@@ -250,8 +250,7 @@ class IndexController {
 			return json_encode(array(
 					'success'=>true,
 					'permissions'=>array(
-						'is_write_user_actions'=>$userToken->getIsWriteUserActions(),
-						'is_write_calendar'=>$userToken->getIsWriteCalendar(),
+						'is_editor'=>$userToken->getIsEditor(),
 					),
 					'user_token'=>$userToken->getUserToken(),
 					'user_secret'=>$userToken->getUserSecret(),
@@ -275,8 +274,7 @@ class IndexController {
 					'username'=>$app['apiUser']->getUserName(),
 				),
 				'permissions'=>array(
-					'is_write_user_actions'=>$app['apiUserToken']->getIsWriteUserActions(),
-					'is_write_calendar'=>$app['apiUserToken']->getIsWriteCalendar(),
+					'is_editor'=>$app['apiUserToken']->getIsEditor(),
 				)
 			));
 	}

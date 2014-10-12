@@ -32,11 +32,8 @@
 		{{ form_row(form.password) }}
 
 		<div>
-			{% if askForPermissionWriteUserActions %}
-				{{ form_row(form.is_write_user_actions) }}
-			{% endif %}
-			{% if askForPermissionWriteCalendar %}
-				{{ form_row(form.is_write_calendar) }}
+			{% if askForPermissionEditor %}
+				{{ form_row(form.is_editor) }}
 			{% endif %}
 		</div>
 		
