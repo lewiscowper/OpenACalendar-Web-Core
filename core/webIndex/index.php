@@ -38,7 +38,7 @@ $app->before(function (Request $request) use ($app) {
 	$app['currentTimeZone'] = $timezone;
 
 	# ////////////// Permissions
-	$userPermissionsRepo = new \repositories\UserPermissionsRepository();
+	$userPermissionsRepo = new \repositories\UserPermissionsRepository($app['extensions']);
 	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInIndex(userGetCurrent());
 
 

@@ -16,5 +16,11 @@ class CalendarEditUserPermission extends \BaseUserPermission {
 
 	public function getUserPermissionKey() { return 'CALENDAR_EDIT'; }
 
+	public function isForSite() { return true; }
+
+	public function requiresUser() { return true; }
+
+	public function requiresEditorUser() { return true; }
+
 }
 

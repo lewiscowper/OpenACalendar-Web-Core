@@ -55,14 +55,54 @@
 		<tr>
 			<th>Extension</th>
 			<th>ID</th>
+			<th>&nbsp;</th>
 		</tr>
 		{% for userpermission in userpermissions %}
 			<tr>
 				<td>{{ userpermission.userPermissionExtensionID }}</td>
 				<td>{{ userpermission.userPermissionKey }}</td>
+				<td>
+					<form method="post" action="">
+						<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+						<input type="hidden" name="action" value="removepermission">
+						<input type="hidden" name="extension" value="{{ userpermission.userPermissionExtensionID }}">
+						<input type="hidden" name="permission" value="{{ userpermission.userPermissionKey }}">
+						<input type="submit" value="Remove!">
+					</form>
+				</td>
 			</tr>
 		{% endfor %}
 	</table>
+
+	<h3>Add User Permissions</h3>
+
+	{%  if  userpermissionstoadd %}
+		<table class="data">
+			<tr>
+				<th>Extension</th>
+				<th>ID</th>
+				<th>&nbsp;</th>
+			</tr>
+			{% for userpermission in userpermissionstoadd %}
+				<tr>
+					<td>{{ userpermission.userPermissionExtensionID }}</td>
+					<td>{{ userpermission.userPermissionKey }}</td>
+					<td>
+						<form method="post" action="">
+							<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+							<input type="hidden" name="action" value="addpermission">
+							<input type="hidden" name="extension" value="{{ userpermission.userPermissionExtensionID }}">
+							<input type="hidden" name="permission" value="{{ userpermission.userPermissionKey }}">
+							<input type="submit" value="Add!">
+						</form>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{%  else %}
+		<p>No more to add.</p>
+	{%  endif %}
+
 
 	<h3>Users</h3>
 
@@ -102,6 +142,9 @@
 	<ul class="actionHelp">
 		<li>addusername  <span class="param">username</a></li>
 		<li>removeusername  <span class="param">username</a></li>
+		<li>includesanonymous  <span class="param">boolean</a></li>
+		<li>includesusers  <span class="param">boolean</a></li>
+		<li>includesverifiedusers  <span class="param">boolean</a></li>
 	</ul>
 
 {% endblock %}

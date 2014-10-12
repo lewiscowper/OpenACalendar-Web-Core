@@ -16,5 +16,17 @@ abstract class BaseUserPermission {
 
 	public abstract function getUserPermissionKey();
 
+
+	public function isForIndex() { return false; }
+
+	public function isForSite() { return false; }
+
+	public function requiresUser() { return false; }
+
+	public function requiresVerifiedUser() { return false; }
+
+	public function requiresEditorUser() { return false; }
+
+
 }
 

@@ -45,7 +45,7 @@ $app->before(function (Request $request) use ($app) {
 	}
 
 	# ////////////// Permissions and Watch
-	$userPermissionsRepo = new \repositories\UserPermissionsRepository();
+	$userPermissionsRepo = new \repositories\UserPermissionsRepository($app['extensions']);
 	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInSite(userGetCurrent(), $app['currentSite']);
 
 

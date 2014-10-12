@@ -13,21 +13,34 @@
 class UserPermissionsList {
 
 
-	protected $permissions = array();
+	protected $permissions;
 
 	protected $has_user = false;
 	protected $has_user_verified = false;
 	protected $has_user_editor = false;
 	protected $has_user_system_administrator = false;
 
-	function __construct($permissions, \models\UserAccountModel $userAccountModel = null)
+	function __construct($permissions, \models\UserAccountModel $userAccountModel = null, $isSiteReadOnlyMode = false)
 	{
-		$this->permissions = $permissions;
 		if ($userAccountModel) {
 			$this->has_user = true;
 			$this->has_user_editor = $userAccountModel->getIsEditor();
 			$this->has_user_verified = $userAccountModel->getIsEmailVerified();
 			$this->has_user_system_administrator = $userAccountModel->getIsSystemAdmin();
+		}
+		$this->permissions = array();
+		foreach($permissions as $permission) {
+			$add = true;
+			if ($permission->requiresUser() && !$this->has_user) {
+				$add = false;
+			} else if ($permission->requiresVerifiedUser() && !$this->has_user_verified) {
+				$add = false;
+			} else if ($permission->requiresEditorUser() && (!$this->has_user_editor || $isSiteReadOnlyMode)) {
+				$add = false;
+			}
+			if ($add) {
+				$this->permissions[] = $permission;
+			}
 		}
 	}
 
@@ -39,5 +52,15 @@ class UserPermissionsList {
 		}
 		return false;
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getPermissions()
+	{
+		return $this->permissions;
+	}
+
+
 }
 

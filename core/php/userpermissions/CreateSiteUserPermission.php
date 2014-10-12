@@ -16,5 +16,13 @@ class CreateSiteUserPermission extends \BaseUserPermission {
 
 	public function getUserPermissionKey() { return 'CREATE_SITE'; }
 
+	public function isForIndex() { return true; }
+
+	public function requiresUser() { return true; }
+
+	public function requiresEditorUser() { return true; }
+
+
+
 }
 

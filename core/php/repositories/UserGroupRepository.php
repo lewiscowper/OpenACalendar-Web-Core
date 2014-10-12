@@ -3,6 +3,7 @@
 
 namespace repositories;
 
+use dbaccess\UserGroupDBAccess;
 use models\SiteModel;
 use models\UserAccountModel;
 use models\UserGroupModel;
@@ -18,6 +19,15 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 class UserGroupRepository {
+
+	/** @var  \dbaccess\UserGroupDBAccess */
+	protected $userGroupDBAccess;
+
+	function __construct()
+	{
+		global $DB, $USERAGENT;
+		$this->userGroupDBAccess = new UserGroupDBAccess($DB, new \TimeSource(), $USERAGENT);
+	}
 
 
 	public function createForSite(SiteModel $site, UserGroupModel $userGroupModel, UserAccountModel $userAccountModel=null, $initialUserPermissions=array(), $initialUsers=array()) {
@@ -186,10 +196,68 @@ class UserGroupRepository {
 
 	}
 
-	
-	public function loadById($id) {
+
+
+	public function addPermissionToGroup(\BaseUserPermission $userPermissionModel, UserGroupModel $userGroupModel, UserAccountModel $currentUser = null) {
 		global $DB;
-		$stat = $DB->prepare("SELECT user_group_information.* FROM user_group_information WHERE id = :id");
+
+		$inTransaction = $DB->inTransaction();
+
+		$statInsertUserInUserGroup = $DB->prepare("INSERT INTO permission_in_user_group (extension_id, permission_key, user_group_id, added_at, added_by_user_account_id) ".
+			"VALUES (:extension_id, :permission_key, :user_group_id, :added_at, :added_by_user_account_id)");
+
+		try {
+			if (!$inTransaction) $DB->beginTransaction();
+
+			// TODO check already in
+
+			$statInsertUserInUserGroup->execute(array(
+				"user_group_id"=>$userGroupModel->getId(),
+				"extension_id"=>$userPermissionModel->getUserPermissionExtensionID(),
+				"permission_key"=>$userPermissionModel->getUserPermissionKey(),
+				"added_at"=>\TimeSource::getFormattedForDataBase(),
+				"added_by_user_account_id"=>($currentUser ? $currentUser->getId() : null),
+			));
+
+
+			if (!$inTransaction) $DB->commit();
+		} catch (Exception $e) {
+			if (!$inTransaction) $DB->rollBack();
+		}
+
+	}
+
+	public function removePermissionFromGroup(\BaseUserPermission $userPermissionModel, UserGroupModel $userGroupModel, UserAccountModel $currentUser = null) {
+		global $DB;
+
+		$stat = $DB->prepare("UPDATE permission_in_user_group SET removed_at=:removed_at, removed_by_user_account_id=:removed_by_user_account_id WHERE ".
+			"extension_id=:extension_id AND permission_key = :permission_key AND user_group_id = :user_group_id AND removed_at IS NULL");
+
+		$stat->execute(array(
+			"extension_id"=>$userPermissionModel->getUserPermissionExtensionID(),
+			"permission_key"=>$userPermissionModel->getUserPermissionKey(),
+			"user_group_id"=>$userGroupModel->getId(),
+			"removed_at"=>\TimeSource::getFormattedForDataBase(),
+			"removed_by_user_account_id"=>($currentUser ? $currentUser->getId() : null),
+		));
+
+	}
+
+	public function editIsIncludesAnonymous(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel) {
+		$this->userGroupDBAccess->update($userGroupModel, array('is_includes_anonymous'), $userAccountModel);
+	}
+
+	public function editIsIncludesUser(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel) {
+		$this->userGroupDBAccess->update($userGroupModel, array('is_includes_users'), $userAccountModel);
+	}
+
+	public function editIsIncludesVerifiedUser(UserGroupModel $userGroupModel, UserAccountModel $userAccountModel) {
+		$this->userGroupDBAccess->update($userGroupModel, array('is_includes_verified_users'), $userAccountModel);
+	}
+
+	public function loadByIdInIndex($id) {
+		global $DB;
+		$stat = $DB->prepare("SELECT user_group_information.* FROM user_group_information WHERE is_in_index='1' AND id = :id");
 		$stat->execute(array( 'id'=>$id, ));
 		if ($stat->rowCount() > 0) {
 			$ugm = new UserGroupModel();

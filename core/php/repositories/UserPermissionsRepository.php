@@ -17,6 +17,16 @@ use models\UserGroupModel;
 
 class UserPermissionsRepository {
 
+
+	/** @var  \ExtensionManager */
+	protected $extensionsManager;
+
+	function __construct($extensionsManager)
+	{
+		$this->extensionsManager = $extensionsManager;
+	}
+
+
 	public function getPermissionsForUserGroup(UserGroupModel $userGroupModel) {
 		global $DB, $app;
 
@@ -37,7 +47,7 @@ class UserPermissionsRepository {
 
 
 	public function getPermissionsForUserInIndex(UserAccountModel $userAccountModel = null) {
-		global $DB, $app;
+		global $DB, $CONFIG;
 
 		if ($userAccountModel) {
 
@@ -62,16 +72,16 @@ class UserPermissionsRepository {
 
 		$permissions = array();
 		while($data = $stat->fetch()) {
-			$ext = $app['extensions']->getExtensionById($data['extension_id']);
+			$ext = $this->extensionsManager->getExtensionById($data['extension_id']);
 			if ($ext) {
 				$permissions[] = $ext->getUserPermission($data['permission_key']);
 			}
 		}
-		return new \UserPermissionsList($permissions, $userAccountModel);
+		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly);
 	}
 
 	public function getPermissionsForUserInSite(UserAccountModel $userAccountModel = null, SiteModel $siteModel) {
-		global $DB, $app;
+		global $DB, $CONFIG;
 
 		if ($userAccountModel) {
 
@@ -101,12 +111,12 @@ class UserPermissionsRepository {
 
 		$permissions = array();
 		while($data = $stat->fetch()) {
-			$ext = $app['extensions']->getExtensionById($data['extension_id']);
+			$ext = $this->extensionsManager->getExtensionById($data['extension_id']);
 			if ($ext) {
 				$permissions[] = $ext->getUserPermission($data['permission_key']);
 			}
 		}
-		return new \UserPermissionsList($permissions, $userAccountModel);
+		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly);
 	}
 
 
