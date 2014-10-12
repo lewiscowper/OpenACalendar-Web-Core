@@ -17,6 +17,7 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 
 	function testSiteOwnerAllEdit() {
 		global $CONFIG;
+		$CONFIG->newUsersAreEditors = true;
 		$DB = getNewTestDB();
 		addCountriesToTestDB();
 		$app = getNewTestApp();
@@ -42,6 +43,11 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 		$userRepo->create($userVerified);
 		$userRepo->verifyEmail($userVerified);
 		$userRepo->create($userUnverified);
+
+		// reload user object so all flags set correctly
+		$userOwner = $userRepo->loadByUserName($userOwner->getUsername());
+		$userVerified = $userRepo->loadByUserName($userVerified->getUsername());
+		$userUnverified = $userRepo->loadByUserName($userUnverified->getUsername());
 
 		$extensionsManager = new ExtensionManager($app);
 		$userPerRepo = new \repositories\UserPermissionsRepository($extensionsManager);
@@ -72,6 +78,7 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 
 	function testSiteOwnerSpecificEdit() {
 		global $CONFIG;
+		$CONFIG->newUsersAreEditors = true;
 		$DB = getNewTestDB();
 		addCountriesToTestDB();
 		$app = getNewTestApp();
@@ -97,6 +104,11 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 		$userRepo->create($userVerified);
 		$userRepo->verifyEmail($userVerified);
 		$userRepo->create($userUnverified);
+
+		// reload user object so all flags set correctly
+		$userOwner = $userRepo->loadByUserName($userOwner->getUsername());
+		$userVerified = $userRepo->loadByUserName($userVerified->getUsername());
+		$userUnverified = $userRepo->loadByUserName($userUnverified->getUsername());
 
 		$extensionsManager = new ExtensionManager($app);
 		$userPerRepo = new \repositories\UserPermissionsRepository($extensionsManager);
