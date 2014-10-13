@@ -30,7 +30,7 @@ class UserActionsSiteList {
 
 
 	public function set($extId, $action, $value) {
-		if (array_key_exists($extId, $this->actions)) {
+		if (!array_key_exists($extId, $this->actions)) {
 			$this->actions[$extId] = array();
 		}
 		$this->actions[$extId][$action] = $value;
