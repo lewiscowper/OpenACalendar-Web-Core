@@ -77,7 +77,7 @@ class UserPermissionsRepository {
 				$permissions[] = $ext->getUserPermission($data['permission_key']);
 			}
 		}
-		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly || $removeEditorPermissions);
+		return new \UserPermissionsList($this->extensionsManager, $permissions, $userAccountModel, $CONFIG->siteReadOnly || $removeEditorPermissions);
 	}
 
 	public function getPermissionsForUserInSite(UserAccountModel $userAccountModel = null, SiteModel $siteModel,  $removeEditorPermissions = false) {
@@ -116,7 +116,7 @@ class UserPermissionsRepository {
 				$permissions[] = $ext->getUserPermission($data['permission_key']);
 			}
 		}
-		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly || $removeEditorPermissions);
+		return new \UserPermissionsList($this->extensionsManager, $permissions, $userAccountModel, $CONFIG->siteReadOnly || $removeEditorPermissions);
 	}
 
 

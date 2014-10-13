@@ -22,5 +22,10 @@ class CalendarEditUserPermission extends \BaseUserPermission {
 
 	public function requiresEditorUser() { return true; }
 
-}
+	public function getParentPermissionsIDs() {
+		return array(
+			array('org.openacalendar','CALENDAR_ADMINISTRATE'),
+		);
+	}
 
+}

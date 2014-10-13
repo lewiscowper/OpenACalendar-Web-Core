@@ -15,12 +15,14 @@ class UserPermissionsList {
 
 	protected $permissions;
 
+	protected $removeEditorPermissions;
+
 	protected $has_user = false;
 	protected $has_user_verified = false;
 	protected $has_user_editor = false;
 	protected $has_user_system_administrator = false;
 
-	function __construct($permissions, \models\UserAccountModel $userAccountModel = null, $removeEditorPermissions = false)
+	function __construct(ExtensionManager $extensionManager, $permissions, \models\UserAccountModel $userAccountModel = null, $removeEditorPermissions = false)
 	{
 		if ($userAccountModel) {
 			$this->has_user = true;
@@ -28,19 +30,51 @@ class UserPermissionsList {
 			$this->has_user_verified = $userAccountModel->getIsEmailVerified();
 			$this->has_user_system_administrator = $userAccountModel->getIsSystemAdmin();
 		}
+		$this->removeEditorPermissions = $removeEditorPermissions;
 		$this->permissions = array();
+		// Add direct permissions, checking user stats as we do so.
 		foreach($permissions as $permission) {
-			$add = true;
-			if ($permission->requiresUser() && !$this->has_user) {
-				$add = false;
-			} else if ($permission->requiresVerifiedUser() && !$this->has_user_verified) {
-				$add = false;
-			} else if ($permission->requiresEditorUser() && (!$this->has_user_editor || $removeEditorPermissions)) {
-				$add = false;
+			$this->addPermission($permission);
+		}
+		// now add children
+		do {
+			$addedAny = false;
+			foreach($extensionManager->getExtensionsIncludingCore() as $extension) {
+				foreach($extension->getUserPermissions() as $possibleChildID) {
+					$possibleChildPermission = $extension->getUserPermission($possibleChildID);
+					$addThisOne = false;
+					foreach($possibleChildPermission->getParentPermissionsIDs() as $parentData) {
+						if (!$addThisOne && $this->hasPermission($parentData[0],$parentData[1])) {
+							$addThisOne = true;
+						}
+					}
+					if ($addThisOne) {
+						$this->addPermission($possibleChildPermission);
+					}
+				}
 			}
-			if ($add) {
-				$this->permissions[] = $permission;
+
+		} while ($addedAny);
+
+	}
+
+	protected function addPermission(BaseUserPermission $permission) {
+		foreach($this->permissions as $existingPermission) {
+			if ($existingPermission->getUserPermissionExtensionID() == $permission->getUserPermissionExtensionID() &&
+				$existingPermission->getUserPermissionKey() == $permission->getUserPermissionKey()) {
+				return true;
 			}
+		}
+		$add = true;
+		if ($permission->requiresUser() && !$this->has_user) {
+			$add = false;
+		} else if ($permission->requiresVerifiedUser() && !$this->has_user_verified) {
+			$add = false;
+		} else if ($permission->requiresEditorUser() && (!$this->has_user_editor || $this->removeEditorPermissions)) {
+			$add = false;
+		}
+		if ($add) {
+			$this->permissions[] = $permission;
 		}
 	}
 
