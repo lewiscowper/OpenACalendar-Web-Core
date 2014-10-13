@@ -53,7 +53,7 @@ class SiteRepository {
 						"created_at,cached_is_multiple_timezones,cached_is_multiple_countries,".
 						"cached_timezones,is_feature_map,is_feature_importer,is_feature_curated_list,".
 						"is_listed_in_index,is_web_robots_allowed, ".
-						", prompt_emails_days_in_advance,site_quota_id, ".
+						" prompt_emails_days_in_advance,site_quota_id, ".
 						"is_feature_tag,is_feature_physical_events,is_feature_virtual_events) ".
 					"VALUES (:title, :slug, :slug_canonical, ".
 						" :created_at,:cached_is_multiple_timezones,:cached_is_multiple_countries,".
