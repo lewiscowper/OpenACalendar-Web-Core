@@ -43,20 +43,31 @@ class UserInAPI2ApplicationRepository {
 			return;
 		}	
 			
-		################## get data, check if we need to escalate permissions
+		################## get data, check if we need to escalate or remove permissions
 		$userInAppData = $stat->fetch();
 
 		if (($permissions->getIsEditorGranted() && $userInAppData['is_editor'] == 0)) {
 			
 			$stat = $DB->prepare("UPDATE user_in_api2_application_information ".
-					" SET is_editor=:is_editor ".
+					" SET is_editor='1' ".
 					" WHERE api2_application_id =:api2_application_id AND user_id =:user_id ");
 			$stat->execute(array( 
 					'api2_application_id'=>$app->getId(), 
 					'user_id'=>$user->getId() ,
-					'is_editor'=>$permissions->getIsEditorGranted() ? 1 : 0,
 				));
 			
+		}
+
+		if (($permissions->getIsEditorRefused() && $userInAppData['is_editor'] == 1)) {
+
+			$stat = $DB->prepare("UPDATE user_in_api2_application_information ".
+					" SET is_editor='0' ".
+					" WHERE api2_application_id =:api2_application_id AND user_id =:user_id ");
+			$stat->execute(array(
+					'api2_application_id'=>$app->getId(),
+					'user_id'=>$user->getId() ,
+				));
+
 		}
 
 	}
