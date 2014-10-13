@@ -46,8 +46,6 @@ class SiteHistoryTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(true,  $siteHistory->getIsClosedBySysAdminChanged());
 		$this->assertEquals(false,  $siteHistory->getClosedBySyAdminReasonChanged());
 		$this->assertEquals(true,  $siteHistory->getIsListedInIndexChanged());
-		$this->assertEquals(true,  $siteHistory->getIsRequestAccesAllowedChanged());
-		$this->assertEquals(false,  $siteHistory->getRequestAccessQuestionChanged());
 		$this->assertEquals(true,  $siteHistory->getIsFeatureMapChanged());
 		$this->assertEquals(true,  $siteHistory->getIsFeatureImporterChanged());
 		$this->assertEquals(true,  $siteHistory->getIsFeatureCuratedListChanged());
@@ -92,8 +90,6 @@ class SiteHistoryTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(false,  $siteHistory->getIsClosedBySysAdminChanged());
 		$this->assertEquals(false,  $siteHistory->getClosedBySyAdminReasonChanged());
 		$this->assertEquals(false,  $siteHistory->getIsListedInIndexChanged());
-		$this->assertEquals(false,  $siteHistory->getIsRequestAccesAllowedChanged());
-		$this->assertEquals(false,  $siteHistory->getRequestAccessQuestionChanged());
 		$this->assertEquals(false,  $siteHistory->getIsFeatureMapChanged());
 		$this->assertEquals(false,  $siteHistory->getIsFeatureImporterChanged());
 		$this->assertEquals(false,  $siteHistory->getIsFeatureCuratedListChanged());
