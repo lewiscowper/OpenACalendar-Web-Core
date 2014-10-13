@@ -42,25 +42,6 @@
 		<li><a href="/history"><div class="iconHistoryLarge"></div> Recent Changes</a></li>
 	</ul>
 
-	{# TODO
-	{% if not currentUserCanEditSite and currentUser is not null and currentUser.isSiteRequestAccessAllowed and currentSite.isRequestAccessAllowed %}
-		<div class="requestAccessWrapper">
-			<p>Do you want to edit this calendar?</p>
-			<form action="/requestaccess" method="post">
-				<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-				<div>
-					<label>
-						<p>{{ currentSite.requestAccessQuestion | nl2br }}</p>
-						<textarea name="answer"></textarea>
-					</label>
-				</div>
-				<input type="submit" value="Request permission to edit">
-				<p class="emailWarning">(Doing so will make your username and email address available to the administrators)</p>
-			</form>
-		</div>
-	{% endif %}
-	#}
-
 {% endblock %}
 
 

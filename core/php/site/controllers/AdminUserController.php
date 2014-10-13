@@ -2,6 +2,7 @@
 
 namespace site\controllers;
 
+use repositories\UserPermissionsRepository;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use repositories\UserAccountRepository;
@@ -34,62 +35,18 @@ class AdminUserController {
 
 	}
 
-	function request($username, Request $request, Application $app) {		
+	function index($username, Request $request, Application $app) {
 		if (!$this->build($username, $request, $app)) {
 			$app->abort(404, "User does not exist.");
 		}
-				
-		if ($request->request->get('action') && $request->request->get('CSFRToken') == $app['websession']->getCSFRToken()) {
-			$repo = new SiteAccessRequestRepository();
-			if ($request->request->get('action') == 'grant') {
-				$repo->grantForSiteAndUser($app['currentSite'], $this->parameters['user'], userGetCurrent());
-				$this->sendGrantRequestActionEmail($this->parameters['user'], $app['currentSite'], $app);
-				$app['flashmessages']->addMessage("Request granted.");
-			} else if ($request->request->get('action') == 'deny') {
-				$repo->rejectForSiteAndUser($app['currentSite'], $this->parameters['user'], userGetCurrent());
-				$app['flashmessages']->addMessage("Request refused.");
-			}
-			return $app->redirect("/admin/users");
-		}
 
-		// TODO
+		$userPermissionRepo = new UserPermissionsRepository($app['extensions']);
 
-		
-		$b = new SiteAccessRequestRepositoryBuilder();
-		$b->setSite($app['currentSite']);
-		$b->setUser($this->parameters['user']);
-		$this->parameters['requests'] = $b->fetchAll();
-		
-		return $app['twig']->render('site/adminuser/request.html.twig', $this->parameters);
+		$this->parameters['userpermissions'] = $userPermissionRepo->getPermissionsForUserInSite($this->parameters['user'], $app['currentSite'], false)->getPermissions();
+
+		return $app['twig']->render('site/adminuser/index.html.twig', $this->parameters);
 	}
-	
-	protected function sendGrantRequestActionEmail($user, $site, Application $app) {		
-		$message = \Swift_Message::newInstance();
-		$message->setSubject("You can now edit ".$site->getTitle());
-		$message->setFrom(array($app['config']->emailFrom => $app['config']->emailFromName));
-		$message->setTo($user->getEmail());
 
-		configureAppForThemeVariables($site);
-
-		$messageText = $app['twig']->render('email/siteAccessRequestGranted.txt.twig', array(
-			'user'=>$user,
-			'site'=>$site,
-		));
-		if ($app['config']->isDebug) file_put_contents('/tmp/siteAccessRequestGranted.txt', $messageText);
-		$message->setBody($messageText);
-
-		$messageHTML = $app['twig']->render('email/siteAccessRequestGranted.html.twig', array(
-			'user'=>$user,
-			'site'=>$site,
-		));
-		if ($app['config']->isDebug) file_put_contents('/tmp/siteAccessRequestGranted.html', $messageHTML);
-		$message->addPart($messageHTML,'text/html');
-
-		if (!$app['config']->isDebug) $app['mailer']->send($message);
-	
-	}
-	
-	
 }
 
 

@@ -46,7 +46,7 @@ class UserPermissionsRepository {
 	}
 
 
-	public function getPermissionsForUserInIndex(UserAccountModel $userAccountModel = null) {
+	public function getPermissionsForUserInIndex(UserAccountModel $userAccountModel = null,  $removeEditorPermissions = false) {
 		global $DB, $CONFIG;
 
 		if ($userAccountModel) {
@@ -77,10 +77,10 @@ class UserPermissionsRepository {
 				$permissions[] = $ext->getUserPermission($data['permission_key']);
 			}
 		}
-		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly);
+		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly || $removeEditorPermissions);
 	}
 
-	public function getPermissionsForUserInSite(UserAccountModel $userAccountModel = null, SiteModel $siteModel) {
+	public function getPermissionsForUserInSite(UserAccountModel $userAccountModel = null, SiteModel $siteModel,  $removeEditorPermissions = false) {
 		global $DB, $CONFIG;
 
 		if ($userAccountModel) {
@@ -116,7 +116,7 @@ class UserPermissionsRepository {
 				$permissions[] = $ext->getUserPermission($data['permission_key']);
 			}
 		}
-		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly);
+		return new \UserPermissionsList($permissions, $userAccountModel, $CONFIG->siteReadOnly || $removeEditorPermissions);
 	}
 
 

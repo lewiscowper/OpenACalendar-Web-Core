@@ -82,14 +82,6 @@ class SiteHistoryRepository {
 			$sqlFields[] = " is_listed_in_index_changed = :is_listed_in_index_changed ";
 			$sqlParams['is_listed_in_index_changed'] = $sitehistory->getIsListedInIndexChanged() ? 1 : -1;
 		}
-		if ($sitehistory->getRequestAccessQuestionChangedKnown()) {
-			$sqlFields[] = " request_access_question_changed = :request_access_question_changed ";
-			$sqlParams['request_access_question_changed'] = $sitehistory->getRequestAccessQuestionChanged() ? 1 : -1;
-		}
-		if ($sitehistory->getIsRequestAccesAllowedChangedKnown()) {
-			$sqlFields[] = " is_request_access_allowed_changed = :is_request_access_allowed_changed ";
-			$sqlParams['is_request_access_allowed_changed'] = $sitehistory->getIsRequestAccesAllowedChanged() ? 1 : -1;
-		}
 		if ($sitehistory->getIsFeatureImporterChangedKnown()) {
 			$sqlFields[] = " is_feature_importer_changed = :is_feature_importer_changed ";
 			$sqlParams['is_feature_importer_changed'] = $sitehistory->getIsFeatureImporterChanged() ? 1 : -1;

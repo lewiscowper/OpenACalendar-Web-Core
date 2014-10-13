@@ -13,9 +13,6 @@ ALTER TABLE site_history ALTER COLUMN is_closed_by_sys_admin DROP NOT NULL;
 ALTER TABLE site_history ALTER COLUMN is_listed_in_index DROP DEFAULT;
 ALTER TABLE site_history ALTER COLUMN is_listed_in_index DROP NOT NULL;
 
-ALTER TABLE site_history ALTER COLUMN is_request_access_allowed DROP DEFAULT;
-ALTER TABLE site_history ALTER COLUMN is_request_access_allowed DROP NOT NULL;
-
 ALTER TABLE site_history ALTER COLUMN prompt_emails_days_in_advance DROP DEFAULT;
 ALTER TABLE site_history ALTER COLUMN prompt_emails_days_in_advance DROP NOT NULL;
 

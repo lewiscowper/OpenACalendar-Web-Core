@@ -144,7 +144,7 @@
 		</tr>
 		{% for user in users %}
 			<tr {% if loop.index is even %}class="alternative"{% endif %}>
-				<td>{{ user.username }}</td>
+				<td><a href="/admin/user/{{  user.username }}">{{ user.username }}</a></td>
 				<td>
 					<form method="post" action="">
 						<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">

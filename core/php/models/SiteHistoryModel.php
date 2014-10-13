@@ -22,8 +22,6 @@ class SiteHistoryModel extends SiteModel {
 	protected $is_closed_by_sys_admin_changed = 0;
 	protected $closed_by_sys_admin_reason_changed = 0;
 	protected $is_listed_in_index_changed = 0;
-	protected $is_request_access_allowed_changed = 0;
-	protected $request_access_question_changed = 0;
 	protected $is_feature_map_changed = 0;
 	protected $is_feature_importer_changed = 0;
 	protected $is_feature_curated_list_changed = 0;
@@ -47,8 +45,6 @@ class SiteHistoryModel extends SiteModel {
 		$this->is_closed_by_sys_admin = isset($data['is_closed_by_sys_admin']) ? $data['is_closed_by_sys_admin'] : null;
 		$this->closed_by_sys_admin_reason = isset($data['closed_by_sys_admin_reason']) ? $data['closed_by_sys_admin_reason'] : null;
 		$this->is_listed_in_index = isset($data['is_listed_in_index']) ? $data['is_listed_in_index'] : null;
-		$this->is_request_access_allowed = isset($data['is_request_access_allowed']) ? $data['is_request_access_allowed'] : null;
-		$this->request_access_question = isset($data['request_access_question']) ? $data['request_access_question'] : null;
 		$this->is_feature_map = isset($data['is_feature_map']) ? $data['is_feature_map'] : null;
 		$this->is_feature_importer = isset($data['is_feature_importer']) ? $data['is_feature_importer'] : null;
 		$this->is_feature_curated_list = isset($data['is_feature_curated_list']) ? $data['is_feature_curated_list'] : null;
@@ -67,8 +63,6 @@ class SiteHistoryModel extends SiteModel {
 		$this->is_closed_by_sys_admin_changed  = isset($data['is_closed_by_sys_admin_changed']) ? $data['is_closed_by_sys_admin_changed'] : 0;
 		$this->closed_by_sys_admin_reason_changed  = isset($data['closed_by_sys_admin_reason_changed']) ? $data['closed_by_sys_admin_reason_changed'] : 0;
 		$this->is_listed_in_index_changed  = isset($data['is_listed_in_index_changed']) ? $data['is_listed_in_index_changed'] : 0;
-		$this->is_request_access_allowed_changed = isset($data['is_request_access_allowed_changed']) ? $data['is_request_access_allowed_changed'] : 0;
-		$this->request_access_question_changed  = isset($data['request_access_question_changed']) ? $data['request_access_question_changed'] : 0;
 		$this->is_feature_map_changed  = isset($data['is_feature_map_changed']) ? $data['is_feature_map_changed'] : 0;
 		$this->is_feature_importer_changed  = isset($data['is_feature_importer_changed']) ? $data['is_feature_importer_changed'] : 0;
 		$this->is_feature_curated_list_changed  = isset($data['is_feature_curated_list_changed']) ? $data['is_feature_curated_list_changed'] : 0;
@@ -90,8 +84,7 @@ class SiteHistoryModel extends SiteModel {
 			$this->is_closed_by_sys_admin_changed == 0 || 
 			$this->closed_by_sys_admin_reason_changed == 0 ||
 			$this->is_listed_in_index_changed == 0 || 
-			$this->is_request_access_allowed_changed == 0 || 
-			$this->request_access_question_changed == 0 || 
+
 			$this->is_feature_map_changed == 0 || 
 			$this->is_feature_importer_changed == 0 || 
 			$this->is_feature_curated_list_changed == 0 || 
@@ -112,8 +105,6 @@ class SiteHistoryModel extends SiteModel {
 		$this->is_closed_by_sys_admin_changed  = 1;
 		$this->closed_by_sys_admin_reason_changed  =  $this->closed_by_sys_admin_reason ? 1 : -1;
 		$this->is_listed_in_index_changed  = 1;
-		$this->is_request_access_allowed_changed = 1;
-		$this->request_access_question_changed  =  $this->request_access_question ? 1 : -1;
 		$this->is_feature_map_changed  = 1;
 		$this->is_feature_importer_changed  = 1;
 		$this->is_feature_curated_list_changed  = 1;
@@ -149,12 +140,6 @@ class SiteHistoryModel extends SiteModel {
 		}
 		if ($this->is_listed_in_index_changed == 0 && $last->is_listed_in_index_changed != -2) {
 			$this->is_listed_in_index_changed   = ($this->is_listed_in_index  != $last->is_listed_in_index  )? 1 : -1;
-		}
-		if ($this->is_request_access_allowed_changed == 0 && $last->is_request_access_allowed_changed != -2) {
-			$this->is_request_access_allowed_changed  = ($this->is_request_access_allowed  != $last->is_request_access_allowed  )? 1 : -1;
-		}
-		if ($this->request_access_question_changed == 0 && $last->request_access_question_changed != -2) {
-			$this->request_access_question_changed   =  ($this->request_access_question  != $last->request_access_question  )? 1 : -1;
 		}
 		if ($this->is_feature_map_changed == 0 && $last->is_feature_map_changed != -2) {
 			$this->is_feature_map_changed   = ($this->is_feature_map  != $last->is_feature_map  )? 1 : -1;
@@ -245,22 +230,6 @@ class SiteHistoryModel extends SiteModel {
 
 	public function getIsListedInIndexChangedKnown() {
 		return ($this->is_listed_in_index_changed > -2);
-	}
-
-	public function getIsRequestAccesAllowedChanged() {
-		return ($this->is_request_access_allowed_changed > -1);
-	}
-
-	public function getIsRequestAccesAllowedChangedKnown() {
-		return ($this->is_request_access_allowed_changed > -2);
-	}
-
-	public function getRequestAccessQuestionChanged() {
-		return ($this->request_access_question_changed > -1);
-	}
-
-	public function getRequestAccessQuestionChangedKnown() {
-		return ($this->request_access_question_changed > -2);
 	}
 
 	public function getIsFeatureMapChanged() {

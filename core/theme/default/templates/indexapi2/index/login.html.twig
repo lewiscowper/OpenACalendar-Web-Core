@@ -14,7 +14,7 @@
 		<p>{{ api2app.description | nl2br }}</p>
 	</div>
 
-	<form action="/api2/login.html" method="post" class="styled">
+	<form action="/api2/login.html?app_token={{ api2app.appToken }}" method="post" class="styled">
 
 		{{ form_errors(form) }}
 

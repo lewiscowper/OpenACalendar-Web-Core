@@ -46,7 +46,7 @@ class UserInAPI2ApplicationRepository {
 		################## get data, check if we need to escalate permissions
 		$userInAppData = $stat->fetch();
 
-		if (($permissions->getIsEditorGranted() && $userInAppData['is_write_editor'] == 0)) {
+		if (($permissions->getIsEditorGranted() && $userInAppData['is_editor'] == 0)) {
 			
 			$stat = $DB->prepare("UPDATE user_in_api2_application_information ".
 					" SET is_editor=:is_editor ".

@@ -20,7 +20,7 @@ class UserPermissionsList {
 	protected $has_user_editor = false;
 	protected $has_user_system_administrator = false;
 
-	function __construct($permissions, \models\UserAccountModel $userAccountModel = null, $isSiteReadOnlyMode = false)
+	function __construct($permissions, \models\UserAccountModel $userAccountModel = null, $removeEditorPermissions = false)
 	{
 		if ($userAccountModel) {
 			$this->has_user = true;
@@ -35,7 +35,7 @@ class UserPermissionsList {
 				$add = false;
 			} else if ($permission->requiresVerifiedUser() && !$this->has_user_verified) {
 				$add = false;
-			} else if ($permission->requiresEditorUser() && (!$this->has_user_editor || $isSiteReadOnlyMode)) {
+			} else if ($permission->requiresEditorUser() && (!$this->has_user_editor || $removeEditorPermissions)) {
 				$add = false;
 			}
 			if ($add) {
@@ -60,7 +60,6 @@ class UserPermissionsList {
 	{
 		return $this->permissions;
 	}
-
 
 }
 

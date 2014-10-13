@@ -65,13 +65,22 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 		$extensionsManager = new ExtensionManager($app);
 		$userPerRepo = new \repositories\UserPermissionsRepository($extensionsManager);
 
-		$permissions = $userPerRepo->getPermissionsForUserInSite($userOwner, $siteModel);
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userOwner, $siteModel, false);
 		$this->assertEquals(2, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInSite($userVerified, $siteModel);
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userOwner, $siteModel, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userVerified, $siteModel, false);
 		$this->assertEquals(1, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel);
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userVerified, $siteModel, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel, true);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
 	}
@@ -126,13 +135,22 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 		$extensionsManager = new ExtensionManager($app);
 		$userPerRepo = new \repositories\UserPermissionsRepository($extensionsManager);
 
-		$permissions = $userPerRepo->getPermissionsForUserInSite($userOwner, $siteModel);
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userOwner, $siteModel, false);
 		$this->assertEquals(2, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInSite($userVerified, $siteModel);
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userOwner, $siteModel, true);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel);
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userVerified, $siteModel, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userVerified, $siteModel, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel, true);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
 	}

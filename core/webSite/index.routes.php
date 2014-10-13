@@ -443,9 +443,6 @@ $app->match('/admin/sendemail/{slug}/', "site\controllers\SendEmailController::s
 		->before($permissionCalendarAdministratorRequired)
 		->before($canChangeSite);
 
-$app->match('/admin/user/{username}/request', "site\controllers\AdminUserController::request")
-		->before($permissionCalendarAdministratorRequired)
-		->before($canChangeSite);
 $app->match('/admin/areas/', "site\controllers\AdminController::areas")
 		->before($permissionCalendarAdministratorRequired)
 		->before($canChangeSite);
@@ -488,6 +485,12 @@ $app->match('/admin/usergroup/new', "site\controllers\AdminController::newUserGr
 $app->match('/admin/usergroup/{id}', "site\controllers\AdminUserGroupController::show")
 		->before($permissionCalendarAdministratorRequired)
 		->assert('slug', FRIENDLY_SLUG_REGEX);
+
+$app->match('/admin/user/', "site\controllers\AdminController::listUsers")
+	->before($permissionCalendarAdministratorRequired);
+$app->match('/admin/user/{username}/', "site\controllers\AdminUserController::index")
+	->before($permissionCalendarAdministratorRequired)
+	->before($canChangeSite);
 
 		
 		

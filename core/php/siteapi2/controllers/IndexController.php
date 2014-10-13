@@ -30,7 +30,7 @@ class IndexController {
 		$data = array(
 				'success'=>true,
 				'permissions'=>array(
-					'is_editor'=>$app['apiUserIsEditor'],
+					'is_editor'=>$app['apiUserToken']->getIsEditor(),
 				),
 				'site'=>array(
 					'title'=>$app['currentSite']->getTitle(),

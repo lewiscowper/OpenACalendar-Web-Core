@@ -37,11 +37,17 @@ class UserPermissionsIndexTest extends \PHPUnit_Framework_TestCase {
 
 		## user can create sites, anon can't!
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex(null);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, false);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex($user);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($user, false);
 		$this->assertEquals(1, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($user, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
 
 
 
@@ -90,11 +96,17 @@ class UserPermissionsIndexTest extends \PHPUnit_Framework_TestCase {
 
 		## Now user can create sites, anon can't!
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex(null);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, false);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex($user);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($user, false);
 		$this->assertEquals(1, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($user, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
 
 	}
 
@@ -155,13 +167,24 @@ class UserPermissionsIndexTest extends \PHPUnit_Framework_TestCase {
 
 		## Now user can create sites, anon can't!
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex(null);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, false);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex($userVerified);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($userVerified, false);
 		$this->assertEquals(1, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex($userUnverified);
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($userVerified, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($userUnverified, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($userUnverified, true);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
 	}
@@ -220,13 +243,24 @@ class UserPermissionsIndexTest extends \PHPUnit_Framework_TestCase {
 
 		## Now user can create sites, anon can't!
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex(null);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, false);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex($user);
+		$permissions = $userPerRepo->getPermissionsForUserInIndex(null, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($user, false);
 		$this->assertEquals(1, count($permissions->getPermissions()));
 
-		$permissions = $userPerRepo->getPermissionsForUserInIndex($userOther);
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($user, true);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($userOther, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+
+		$permissions = $userPerRepo->getPermissionsForUserInIndex($userOther, true);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
 	}

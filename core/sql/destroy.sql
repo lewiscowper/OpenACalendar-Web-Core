@@ -27,7 +27,6 @@ DROP TABLE IF EXISTS user_watches_site_prompt_email CASCADE;
 DROP TABLE IF EXISTS user_watches_site_notify_email CASCADE;
 DROP TABLE IF EXISTS user_watches_group_prompt_email CASCADE;
 DROP TABLE IF EXISTS user_watches_group_notify_email CASCADE;
-DROP TABLE IF EXISTS site_access_request CASCADE;
 DROP TABLE IF EXISTS send_email_has_event CASCADE;
 DROP TABLE IF EXISTS send_email_information CASCADE;
 DROP TABLE IF EXISTS user_watches_site_stop CASCADE;

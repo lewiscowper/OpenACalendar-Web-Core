@@ -52,6 +52,14 @@ class AdminController {
 
 	}
 
+	function listUsers(Application $app) {
+
+		return $app['twig']->render('site/admin/listUsers.html.twig', array(
+
+			));
+
+	}
+
 	function newUserGroup(Application $app, Request $request) {
 
 		$userGroup = new UserGroupModel();
