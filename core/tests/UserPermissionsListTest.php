@@ -22,7 +22,7 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 
 		$permission = $extensionCore->getUserPermission("CALENDAR_EDIT");
 
-		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), null, false);
+		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), null, false, true);
 
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
@@ -41,7 +41,7 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 		$user = new \models\UserAccountModel();
 		$user->setIsEditor(true);
 
-		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false);
+		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, true);
 
 		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
@@ -60,7 +60,7 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 		$user = new \models\UserAccountModel();
 		$user->setIsEditor(false);
 
-		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false);
+		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, true);
 
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
@@ -79,7 +79,7 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 		$user = new \models\UserAccountModel();
 		$user->setIsEditor(true);
 
-		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, true);
+		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, true, true);
 
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
@@ -98,9 +98,18 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 		$user = new \models\UserAccountModel();
 		$user->setIsEditor(true);
 
-		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false);
+		// With include child permissions
+
+		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, true);
 
 		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
+		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
+
+		// With not includeing child permissions
+
+		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, false);
+
+		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
 		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
 	}
 }

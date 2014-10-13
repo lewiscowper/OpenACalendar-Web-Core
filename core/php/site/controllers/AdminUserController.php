@@ -42,7 +42,7 @@ class AdminUserController {
 
 		$userPermissionRepo = new UserPermissionsRepository($app['extensions']);
 
-		$this->parameters['userpermissions'] = $userPermissionRepo->getPermissionsForUserInSite($this->parameters['user'], $app['currentSite'], false)->getPermissions();
+		$this->parameters['userpermissions'] = $userPermissionRepo->getPermissionsForUserInSite($this->parameters['user'], $app['currentSite'], false, false)->getPermissions();
 
 		return $app['twig']->render('site/adminuser/index.html.twig', $this->parameters);
 	}

@@ -121,7 +121,7 @@ class AdminUserGroupController {
 		$this->parameters['users'] = $urb->fetchAll();
 
 		$r = new UserPermissionsRepository($app['extensions']);
-		$this->parameters['userpermissions'] = $r->getPermissionsForUserGroup($this->parameters['usergroup']);
+		$this->parameters['userpermissions'] = $r->getPermissionsForUserGroup($this->parameters['usergroup'], false);
 
 		$this->parameters['userpermissionstoadd'] = array();
 		foreach($app['extensions']->getExtensionsIncludingCore() as $ext) {

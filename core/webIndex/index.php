@@ -39,7 +39,7 @@ $app->before(function (Request $request) use ($app) {
 
 	# ////////////// Permissions
 	$userPermissionsRepo = new \repositories\UserPermissionsRepository($app['extensions']);
-	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInIndex(userGetCurrent());
+	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInIndex(userGetCurrent(), false, true);
 
 
 	$app['twig']->addGlobal('actionCreateSite', $app['currentUserPermissions']->hasPermission("org.openacalendar","CREATE_SITE"));

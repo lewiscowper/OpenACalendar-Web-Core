@@ -98,7 +98,7 @@ $app->before(function (Request $request) use ($app) {
 	$removeEditPermissions =
 		($app['apiApp'] && !$app['apiApp']->getIsEditor()) ||
 		($app['apiUserToken'] && !$app['apiUserToken']->getIsEditor());
-	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInSite($app['apiUser'], $app['currentSite'], $removeEditPermissions);
+	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInSite($app['apiUser'], $app['currentSite'], $removeEditPermissions, true);
 
 	// finally user actions
 	$app['currentUserActions'] = new UserActionsSiteList($app['currentSite'], $app['currentUserPermissions']);

@@ -78,7 +78,7 @@ $app->before(function (Request $request) use ($app) {
 	$removeEditPermissions =
 		($app['apiApp'] && !$app['apiApp']->getIsEditor()) ||
 		($app['apiUserToken'] && !$app['apiUserToken']->getIsEditor());
-	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInIndex($app['apiUser'], $removeEditPermissions);
+	$app['currentUserPermissions'] = $userPermissionsRepo->getPermissionsForUserInIndex($app['apiUser'], $removeEditPermissions, true);
 
 	
 });

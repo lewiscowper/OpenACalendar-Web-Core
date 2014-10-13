@@ -22,7 +22,7 @@ class UserPermissionsList {
 	protected $has_user_editor = false;
 	protected $has_user_system_administrator = false;
 
-	function __construct(ExtensionManager $extensionManager, $permissions, \models\UserAccountModel $userAccountModel = null, $removeEditorPermissions = false)
+	function __construct(ExtensionManager $extensionManager, $permissions, \models\UserAccountModel $userAccountModel = null, $removeEditorPermissions = false, $includeChildrenPermissions = false)
 	{
 		if ($userAccountModel) {
 			$this->has_user = true;
@@ -37,25 +37,26 @@ class UserPermissionsList {
 			$this->addPermission($permission);
 		}
 		// now add children
-		do {
-			$addedAny = false;
-			foreach($extensionManager->getExtensionsIncludingCore() as $extension) {
-				foreach($extension->getUserPermissions() as $possibleChildID) {
-					$possibleChildPermission = $extension->getUserPermission($possibleChildID);
-					$addThisOne = false;
-					foreach($possibleChildPermission->getParentPermissionsIDs() as $parentData) {
-						if (!$addThisOne && $this->hasPermission($parentData[0],$parentData[1])) {
-							$addThisOne = true;
+		if ($includeChildrenPermissions) {
+			do {
+				$addedAny = false;
+				foreach($extensionManager->getExtensionsIncludingCore() as $extension) {
+					foreach($extension->getUserPermissions() as $possibleChildID) {
+						$possibleChildPermission = $extension->getUserPermission($possibleChildID);
+						$addThisOne = false;
+						foreach($possibleChildPermission->getParentPermissionsIDs() as $parentData) {
+							if (!$addThisOne && $this->hasPermission($parentData[0],$parentData[1])) {
+								$addThisOne = true;
+							}
+						}
+						if ($addThisOne) {
+							$this->addPermission($possibleChildPermission);
 						}
 					}
-					if ($addThisOne) {
-						$this->addPermission($possibleChildPermission);
-					}
 				}
-			}
 
-		} while ($addedAny);
-
+			} while ($addedAny);
+		}
 	}
 
 	protected function addPermission(BaseUserPermission $permission) {
