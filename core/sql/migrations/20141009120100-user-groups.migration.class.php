@@ -93,7 +93,7 @@ class Migration20141009120100 extends Migration {
 			$statInsertPermissionInUserGroup->execute(array(
 				"user_group_id"=>$editId,
 				"extension_id"=>"org.openacalendar",
-				"permission_key"=>"CALENDAR_EDIT",
+				"permission_key"=>"CALENDAR_CHANGE",
 				"added_at"=>$timeSource->getFormattedForDataBase(),
 			));
 

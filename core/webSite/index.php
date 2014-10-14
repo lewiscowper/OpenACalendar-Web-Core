@@ -95,7 +95,7 @@ $app->before(function (Request $request) use ($app) {
 
 $permissionCalendarEditRequired = function(Request $request, Application $app) {
 	global $CONFIG;
-	if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")) {
+	if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")) {
 		return $app->abort(403); // TODO
 	}
 };

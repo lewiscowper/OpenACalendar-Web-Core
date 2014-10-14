@@ -12,7 +12,7 @@
 
 class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 
-	function testAnonymousCantHaveEditPermission() {
+	function testAnonymousCantHaveChangePermission() {
 
 		$app = getNewTestApp();
 
@@ -20,15 +20,15 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 
 		$extensionCore = new \ExtensionCore($app);
 
-		$permission = $extensionCore->getUserPermission("CALENDAR_EDIT");
+		$permission = $extensionCore->getUserPermission("CALENDAR_CHANGE");
 
 		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), null, false, true);
 
-		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
+		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_CHANGE") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
 	}
 
-	function testUserCanHaveEditPermission() {
+	function testUserCanHaveChangePermission() {
 
 		$app = getNewTestApp();
 
@@ -36,18 +36,18 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 
 		$extensionCore = new \ExtensionCore($app);
 
-		$permission = $extensionCore->getUserPermission("CALENDAR_EDIT");
+		$permission = $extensionCore->getUserPermission("CALENDAR_CHANGE");
 
 		$user = new \models\UserAccountModel();
 		$user->setIsEditor(true);
 
 		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, true);
 
-		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
+		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_CHANGE") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
 	}
 
-	function testUserCantHaveEditPermissionWhenUserNotEditor() {
+	function testUserCantHaveChangePermissionWhenUserNotEditor() {
 
 		$app = getNewTestApp();
 
@@ -55,18 +55,18 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 
 		$extensionCore = new \ExtensionCore($app);
 
-		$permission = $extensionCore->getUserPermission("CALENDAR_EDIT");
+		$permission = $extensionCore->getUserPermission("CALENDAR_CHANGE");
 
 		$user = new \models\UserAccountModel();
 		$user->setIsEditor(false);
 
 		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, true);
 
-		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
+		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_CHANGE") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
 	}
 
-	function testUserCantHaveEditPermissionWhenReadOnly() {
+	function testUserCantHaveChangePermissionWhenReadOnly() {
 
 		$app = getNewTestApp();
 
@@ -74,18 +74,18 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 
 		$extensionCore = new \ExtensionCore($app);
 
-		$permission = $extensionCore->getUserPermission("CALENDAR_EDIT");
+		$permission = $extensionCore->getUserPermission("CALENDAR_CHANGE");
 
 		$user = new \models\UserAccountModel();
 		$user->setIsEditor(true);
 
 		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, true, true);
 
-		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
+		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_CHANGE") );
 		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
 	}
 
-	function testUserCanHasEditPermissionWhenHasAdminPermission() {
+	function testUserCanHasChangePermissionWhenHasAdminPermission() {
 
 		$app = getNewTestApp();
 
@@ -102,14 +102,14 @@ class UserPermissionsListTest  extends \PHPUnit_Framework_TestCase {
 
 		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, true);
 
-		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
+		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_CHANGE") );
 		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
 
 		// With not includeing child permissions
 
 		$userPermissionList = new UserPermissionsList($extensionManager, array($permission), $user, false, false);
 
-		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_EDIT") );
+		$this->assertFalse( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_CHANGE") );
 		$this->assertTrue( $userPermissionList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE") );
 	}
 }

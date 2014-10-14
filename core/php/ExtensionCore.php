@@ -25,14 +25,14 @@ class ExtensionCore extends BaseExtension {
 	}	
 
 	public function getUserPermissions() {
-		return array('CREATE_SITE','CALENDAR_EDIT','CALENDAR_ADMINISTRATE');
+		return array('CREATE_SITE','CALENDAR_CHANGE','CALENDAR_ADMINISTRATE');
 	}
 
 	public function getUserPermission($key) {
 		if ($key == 'CREATE_SITE') {
 			return new \userpermissions\CreateSiteUserPermission();
-		} else if ($key == 'CALENDAR_EDIT') {
-			return new \userpermissions\CalendarEditUserPermission();
+		} else if ($key == 'CALENDAR_CHANGE') {
+			return new \userpermissions\CalendarChangeUserPermission();
 		} else if ($key == 'CALENDAR_ADMINISTRATE') {
 			return new \userpermissions\CalendarAdministrateUserPermission();
 		}

@@ -12,9 +12,9 @@ namespace userpermissions;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 
-class CalendarEditUserPermission extends \BaseUserPermission {
+class CalendarChangeUserPermission extends \BaseUserPermission {
 
-	public function getUserPermissionKey() { return 'CALENDAR_EDIT'; }
+	public function getUserPermissionKey() { return 'CALENDAR_CHANGE'; }
 
 	public function isForSite() { return true; }
 

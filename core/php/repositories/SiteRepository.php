@@ -119,7 +119,7 @@ class SiteRepository {
 			$userGroupEditors = new UserGroupModel();
 			$userGroupEditors->setTitle("Editors");
 			$userGroupEditors->setIsIncludesVerifiedUsers($canAnyUserVerifiedEdit);
-			$ugr->createForSite($site, $userGroupEditors, $owner, array(array('org.openacalendar','CALENDAR_EDIT')), array($owner));
+			$ugr->createForSite($site, $userGroupEditors, $owner, array(array('org.openacalendar','CALENDAR_CHANGE')), array($owner));
 
 			$userGroupEditors = new UserGroupModel();
 			$userGroupEditors->setTitle("Administrators");

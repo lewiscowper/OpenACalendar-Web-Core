@@ -112,12 +112,12 @@ $appUserRequired = function(Request $request) use ($app) {
 
 };
 
-$appUserPermissionCalendarEditorRequired = function(Request $request) use ($app) {
+$appUserPermissionCalendarChangeRequired = function(Request $request) use ($app) {
 	if (!$app['apiUser']) {
 		// TODO also if app closed
 		die("ERROR"); // TODO something better
 	}
-	if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")) {
+	if (!$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")) {
 		return $app->abort(403); // TODO
 	}
 };

@@ -31,7 +31,7 @@ abstract class BaseUserPermission {
 	/**
 	 *
 	 * If a user has a parent permission they are deemed to have the child permission to.
-	 * EG a user with the CALENDAR_ADMINISTRATE permission also has the CALENDAR_EDIT permission.
+	 * EG a user with the CALENDAR_ADMINISTRATE permission also has the CALENDAR_CHANGE permission.
 	 *
 	 * @return array of ("ext id","permission key")
 	 */

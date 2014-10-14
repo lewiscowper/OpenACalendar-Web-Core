@@ -41,13 +41,13 @@ $app->match('/event/calendar/{year}/{month}/', "site\controllers\EventListContro
 		->assert('month', '\d+') ; 
 
 $app->match('/event/creatingThisNewEvent.json',"site\controllers\EventNewController::creatingThisNewEvent")
-		->before($permissionCalendarEditRequired);
+		->before($permissionCalendarChangeRequired);
 
 $app->match('/event/new', "site\controllers\EventNewController::newEvent")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/event/new/go', "site\controllers\EventNewController::newEventGo")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 
 $app->match('/event/{slug}', "site\controllers\EventController::show")
@@ -63,102 +63,102 @@ $app->match('/event/{slug}/history', "site\controllers\EventController::history"
 		->assert('slug', FRIENDLY_SLUG_REGEX); 
 $app->match('/event/{slug}/edit', "site\controllers\EventController::editSplash")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/event/{slug}/edit/details', "site\controllers\EventController::editDetails")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/event/{slug}/edit/venue', "site\controllers\EventController::editVenue")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/edit/venue.json', "site\controllers\EventController::editVenueJson")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/edit/venue/new', "site\controllers\EventController::editVenueNew")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/edit/area', "site\controllers\EventController::editArea")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/edit/area.json', "site\controllers\EventController::editAreaJson")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/edit/future', "site\controllers\EventController::editFuture")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/event/{slug}/delete', "site\controllers\EventController::delete")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/event/{slug}/undelete', "site\controllers\EventController::undelete")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/event/{slug}/cancel', "site\controllers\EventController::cancel")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/uncancel', "site\controllers\EventController::uncancel")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/rollback/{timestamp}', "site\controllers\EventController::rollback")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->assert('rollback', '\d+')
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/event/{slug}/recur', "site\controllers\EventController::recur")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/recur/', "site\controllers\EventController::recur")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/recur/weekly', "site\controllers\EventController::recurWeekly")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/recur/weekly/', "site\controllers\EventController::recurWeekly")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/recur/monthly', "site\controllers\EventController::recurMonthly")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/recur/monthly/', "site\controllers\EventController::recurMonthly")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/recur/monthlyLast', "site\controllers\EventController::recurMonthlyLast")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/recur/monthlyLast/', "site\controllers\EventController::recurMonthlyLast")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/moveToArea', "site\controllers\EventController::moveToArea")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)		
 		->before($canChangeSite); 
 $app->match('/event/{slug}/edit/tags', "site\controllers\EventController::editTags")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureTagRequired)
 		->before($canChangeSite); 
 $app->match('/event/{slug}/edit/groups', "site\controllers\EventController::editGroups")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureGroupRequired)
 		->before($canChangeSite);
 $app->match('/event/{slug}/media', "site\controllers\EventController::media")
@@ -167,13 +167,13 @@ $app->match('/event/{slug}/media', "site\controllers\EventController::media")
 	->before($canChangeSite);
 $app->match('/event/{slug}/media/add/existing', "site\controllers\EventController::mediaAddExisting")
 	->assert('slug', FRIENDLY_SLUG_REGEX)
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($appFileStoreRequired)
 	->before($canChangeSite);
 $app->match('/event/{slug}/media/{mediaslug}/remove', "site\controllers\EventController::mediaRemove")
 	->assert('slug', FRIENDLY_SLUG_REGEX)
 	->assert('mediaslug', '\d+')
-	->before($permissionCalendarEditRequired)
+	->before($permissionCalendarChangeRequired)
 	->before($appFileStoreRequired)
 	->before($canChangeSite);
 
@@ -182,7 +182,7 @@ $app->match('/group', "site\controllers\GroupListController::index");
 $app->match('/group/', "site\controllers\GroupListController::index"); 
 
 $app->match('/group/new/', "site\controllers\GroupNewController::newGroup")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureGroupRequired)
 		->before($canChangeSite); 
 
@@ -198,28 +198,28 @@ $app->match('/group/{slug}/media', "site\controllers\GroupController::media")
 		->before($canChangeSite); 
 $app->match('/group/{slug}/media/add/existing', "site\controllers\GroupController::mediaAddExisting")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($appFileStoreRequired)
 		->before($canChangeSite);
 $app->match('/group/{slug}/media/{mediaslug}/remove', "site\controllers\GroupController::mediaRemove")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->assert('mediaslug', '\d+')
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($appFileStoreRequired)
 		->before($canChangeSite); 
 $app->match('/group/{slug}/edit', "site\controllers\GroupController::edit")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureGroupRequired)
 		->before($canChangeSite); 
 $app->match('/group/{slug}/newevent', "site\controllers\GroupController::newEvent")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureGroupRequired)
 		->before($canChangeSite); 
 $app->match('/group/{slug}/newevent/go', "site\controllers\GroupController::newEventGo")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureGroupRequired)
 		->before($canChangeSite); 
 $app->match('/group/{slug}/watch', "site\controllers\GroupController::watch")
@@ -259,19 +259,19 @@ $app->match('/venue', "site\controllers\VenueListController::index");
 $app->match('/venue/', "site\controllers\VenueListController::index"); 
 
 $app->match('/venue/new', "site\controllers\VenueNewController::newVenue")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)
 		->before($canChangeSite); 
 $app->match('/venue/new/', "site\controllers\VenueNewController::newVenue")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)
 		->before($canChangeSite); 
 $app->match('/venue/new/json', "site\controllers\VenueNewController::newVenueJSON")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)		
 		->before($canChangeSite); 
 $app->match('/venue/new/json/', "site\controllers\VenueNewController::newVenueJSON")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)		
 		->before($canChangeSite); 
 
@@ -296,17 +296,17 @@ $app->match('/venue/{slug}/', "site\controllers\VenueController::show")
 		->assert('slug', FRIENDLY_SLUG_REGEX); 
 $app->match('/venue/{slug}/edit', "site\controllers\VenueController::edit")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)		
 		->before($canChangeSite); 
 $app->match('/venue/{slug}/delete', "site\controllers\VenueController::delete")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)		
 		->before($canChangeSite); 
 $app->match('/venue/{slug}/moveToArea', "site\controllers\VenueController::moveToArea")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)		
 		->before($canChangeSite); 
 $app->match('/venue/{slug}/calendar', "site\controllers\VenueController::calendarNow") ; 
@@ -326,13 +326,13 @@ $app->match('/venue/{slug}/media', "site\controllers\VenueController::media")
 $app->match('/venue/{slug}/media/add/existing', "site\controllers\VenueController::mediaAddExisting")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->before($appFileStoreRequired)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/venue/{slug}/media/{mediaslug}/remove', "site\controllers\VenueController::mediaRemove")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->assert('mediaslug', '\d+')
 		->before($appFileStoreRequired)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 
 
@@ -350,11 +350,11 @@ $app->match('/country/{slug}/calendar/{year}/{month}/', "site\controllers\Countr
 		->assert('year', '\d+')
 		->assert('month', '\d+') ; 
 $app->match('/country/{slug}/new', "site\controllers\CountryController::newSplash")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)
 		->before($canChangeSite); 
 $app->match('/country/{slug}/newArea', "site\controllers\CountryController::newArea")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)
 		->before($canChangeSite); 
 $app->match('/country/{slug}/info.json', "site\controllers\CountryController::infoJson"); 
@@ -365,17 +365,17 @@ $app->match('/area/{slug}/', "site\controllers\AreaController::show")
 		->assert('slug', FRIENDLY_SLUG_REGEX); 
 $app->match('/area/{slug}/new', "site\controllers\AreaController::newSplash")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)
 		->before($canChangeSite); 
 $app->match('/area/{slug}/newArea', "site\controllers\AreaController::newArea")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)
 		->before($canChangeSite); 
 $app->match('/area/{slug}/edit', "site\controllers\AreaController::edit")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featurePhysicalEventsRequired)
 		->before($canChangeSite); 
 $app->match('/area/{slug}/calendar', "site\controllers\AreaController::calendarNow")
@@ -521,17 +521,17 @@ $app->match('/importurl/{slug}', "site\controllers\ImportURLController::show")
 $app->match('/importurl/{slug}/', "site\controllers\ImportURLController::show")
 		->assert('slug', '\d+'); 
 $app->match('/importurl/{slug}/edit', "site\controllers\ImportURLController::edit")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureImporterRequired)
 		->before($canChangeSite)
 		->assert('slug', '\d+'); 
 $app->match('/importurl/{slug}/enable', "site\controllers\ImportURLController::enable")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureImporterRequired)
 		->before($canChangeSite)
 		->assert('slug', '\d+'); 
 $app->match('/importurl/{slug}/disable', "site\controllers\ImportURLController::disable")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureImporterRequired)
 		->before($canChangeSite)
 		->assert('slug', '\d+'); 
@@ -542,7 +542,7 @@ $app->match('/curatedlist', "site\controllers\CuratedListListController::index")
 $app->match('/curatedlist/', "site\controllers\CuratedListListController::index"); 
 
 $app->match('/curatedlist/new/', "site\controllers\CuratedListNewController::newCuratedList")
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureCuratedListRequired)
 		->before($canChangeSite); 
 
@@ -552,7 +552,7 @@ $app->match('/curatedlist/{slug}/', "site\controllers\CuratedListController::sho
 		->assert('slug', FRIENDLY_SLUG_REGEX); 
 $app->match('/curatedlist/{slug}/edit', "site\controllers\CuratedListController::edit")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureCuratedListRequired)
 		->before($canChangeSite); 
 $app->match('/curatedlist/{slug}/curators', "site\controllers\CuratedListController::curators")
@@ -573,24 +573,24 @@ $app->match('/curatedlist/{slug}/calendar/{year}/{month}/', "site\controllers\Cu
 $app->match('/curatedlist/{slug}/event/{eslug}/remove', "site\controllers\CuratedListEventController::remove")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->assert('eslug', '\d+')
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite); 
 $app->match('/curatedlist/{slug}/event/{eslug}/add', "site\controllers\CuratedListEventController::add")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->assert('eslug', '\d+')
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite)
 		->before($featureCuratedListRequired);
 $app->match('/curatedlist/{slug}/group/{gslug}/remove', "site\controllers\CuratedListGroupController::remove")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->assert('gslug', '\d+')
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($canChangeSite);
 $app->match('/curatedlist/{slug}/group/{gslug}/add', "site\controllers\CuratedListGroupController::add")
 		->assert('slug', FRIENDLY_SLUG_REGEX)
 		->assert('gslug', '\d+')
 		->before($canChangeSite)
-		->before($permissionCalendarEditRequired)
+		->before($permissionCalendarChangeRequired)
 		->before($featureGroupRequired)
 		->before($featureCuratedListRequired);
 

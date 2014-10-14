@@ -64,14 +64,14 @@ class ImportURLController {
 
 		$app['currentUserActions']->set("org.openacalendar","importURLLog",true);
 		$app['currentUserActions']->set("org.openacalendar","importURLEditDetails",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeatureImporter());
 		$app['currentUserActions']->set("org.openacalendar","importURLDisable",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeatureImporter()
 			&& $this->parameters['importurl']->getIsEnabled());
 		$app['currentUserActions']->set("org.openacalendar","importURLEnable",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeatureImporter()
 			&& (!$this->parameters['importurl']->getIsEnabled() || $this->parameters['importurl']->getIsExpired()));
 

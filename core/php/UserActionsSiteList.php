@@ -18,12 +18,12 @@ class UserActionsSiteList {
 	function __construct(\models\SiteModel $siteModel, UserPermissionsList $permissionsList)
 	{
 		$this->actions = array('org.openacalendar'=>array(
-			'eventNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_EDIT"),
-			'groupNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_EDIT") && $siteModel->getIsFeatureGroup(),
-			'venueNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_EDIT") && $siteModel->getIsFeaturePhysicalEvents(),
-			'areaNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_EDIT") && $siteModel->getIsFeaturePhysicalEvents(),
-			'curatedListNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_EDIT") && $siteModel->getIsFeatureCuratedList(),
-			'curatedListGeneralEdit'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_EDIT") && $siteModel->getIsFeatureCuratedList(),
+			'eventNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_CHANGE"),
+			'groupNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_CHANGE") && $siteModel->getIsFeatureGroup(),
+			'venueNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_CHANGE") && $siteModel->getIsFeaturePhysicalEvents(),
+			'areaNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_CHANGE") && $siteModel->getIsFeaturePhysicalEvents(),
+			'curatedListNew'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_CHANGE") && $siteModel->getIsFeatureCuratedList(),
+			'curatedListGeneralEdit'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_CHANGE") && $siteModel->getIsFeatureCuratedList(),
 			'admin'=>$permissionsList->hasPermission("org.openacalendar","CALENDAR_ADMINISTRATE"),
 		));
 	}

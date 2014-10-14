@@ -59,7 +59,10 @@ class UserPermissionsList {
 		}
 	}
 
-	protected function addPermission(BaseUserPermission $permission) {
+	protected function addPermission(BaseUserPermission $permission = null) {
+		// The permission could be from a extension that has now been removed
+		if (!$permission) return;
+
 		foreach($this->permissions as $existingPermission) {
 			if ($existingPermission->getUserPermissionExtensionID() == $permission->getUserPermissionExtensionID() &&
 				$existingPermission->getUserPermissionKey() == $permission->getUserPermissionKey()) {

@@ -69,15 +69,15 @@ class GroupController {
 
 		$app['currentUserActions']->set("org.openacalendar","groupHistory",true);
 		$app['currentUserActions']->set("org.openacalendar","groupEditDetails",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeatureGroup()
 			&& !$this->parameters['group']->getIsDeleted());
 		$app['currentUserActions']->set("org.openacalendar","groupEditMedia",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeatureGroup()
 			&& !$this->parameters['group']->getIsDeleted());
 		$app['currentUserActions']->set("org.openacalendar","groupNewEvent",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeatureGroup()
 			&& !$this->parameters['group']->getIsDeleted());
 
@@ -115,7 +115,7 @@ class GroupController {
 		$this->parameters['importurls'] = $importurlRepoBuilder->fetchAll();
 		
 		$groupRepo = new GroupRepository();
-		if (!$this->parameters['group']->getIsDeleted() && $app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+		if (!$this->parameters['group']->getIsDeleted() && $app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeatureGroup() ) {
 			$this->parameters['isGroupRunningOutOfFutureEvents'] = $groupRepo->isGroupRunningOutOfFutureEvents($this->parameters['group'], $app['currentSite']);
 		} else {

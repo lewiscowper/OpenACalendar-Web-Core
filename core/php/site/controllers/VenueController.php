@@ -85,22 +85,22 @@ class VenueController {
 
 		$app['currentUserActions']->set("org.openacalendar","venueHistory",true);
 		$app['currentUserActions']->set("org.openacalendar","venueEditDetails",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeaturePhysicalEvents()
 			&& !$this->parameters['venue']->getIsDeleted());
 		$app['currentUserActions']->set("org.openacalendar","venueDelete",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeaturePhysicalEvents()
 			&& !$this->parameters['venue']->getIsDeleted());
 		$app['currentUserActions']->set("org.openacalendar","venueEditMedia",
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeaturePhysicalEvents()
 			&& !$this->parameters['venue']->getIsDeleted()
 			&& $CONFIG->isFileStore());
 
 		$app['currentUserActions']->set("org.openacalendar","venueEditPushToChildAreas",
 			$this->parameters['childAreas'] &&
-			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_EDIT")
+			$app['currentUserPermissions']->hasPermission("org.openacalendar","CALENDAR_CHANGE")
 			&& $app['currentSite']->getIsFeaturePhysicalEvents()
 			&& !$this->parameters['venue']->getIsDeleted());
 
