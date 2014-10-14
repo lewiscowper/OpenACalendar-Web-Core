@@ -485,6 +485,12 @@ $app->match('/admin/usergroup/new', "site\controllers\AdminController::newUserGr
 $app->match('/admin/usergroup/{id}', "site\controllers\AdminUserGroupController::show")
 		->before($permissionCalendarAdministratorRequired)
 		->assert('slug', FRIENDLY_SLUG_REGEX);
+$app->match('/admin/usergroup/{id}/users', "site\controllers\AdminUserGroupController::users")
+		->before($permissionCalendarAdministratorRequired)
+		->assert('slug', FRIENDLY_SLUG_REGEX);
+$app->match('/admin/usergroup/{id}/permissions', "site\controllers\AdminUserGroupController::permissions")
+		->before($permissionCalendarAdministratorRequired)
+		->assert('slug', FRIENDLY_SLUG_REGEX);
 
 $app->match('/admin/user/', "site\controllers\AdminController::listUsers")
 	->before($permissionCalendarAdministratorRequired);

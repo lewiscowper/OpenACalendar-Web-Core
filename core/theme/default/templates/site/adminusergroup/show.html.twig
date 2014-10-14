@@ -5,22 +5,16 @@
  # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
  # @author James Baster <james@jarofgreen.co.uk>
  #}
-{% extends 'site/page.html.twig' %}
+{% extends 'site/adminusergroup/page.html.twig' %}
 
 
 {% block pageTitle %}User Group Admin - {% endblock %}
 
 
-{% block breadcrumbs %}
-	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
-	<li><a href="/admin">admin</a></li>
-	<li><a href="/admin/usergroup">user groups</a></li>
-	<li class="current"><a href="/admin/usergroup/{{  usergroup.id }}">{{  usergroup.title }}</a></li>
-{% endblock %}
+{% block tabDetails %}currentTab{% endblock %}
 
-{% block content %}
 
-	<h2>{{ usergroup.title }}</h2>
+{% block innerContent %}
 
 	<p>{{  usergroup.description | nl2br }}</p>
 
@@ -28,18 +22,8 @@
 		Includes all anonymous users:
 		{%  if usergroup.isIncludesAnonymous %}
 			Yes
-			<form method="post" action="">
-				<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-				<input type="hidden" name="action" value="removeanonymous">
-				<input type="submit" value="Remove!">
-			</form>
 		{%  else %}
 			No
-			<form method="post" action="">
-				<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-				<input type="hidden" name="action" value="addanonymous">
-				<input type="submit" value="Add!">
-			</form>
 		{%  endif %}
 	</p>
 
@@ -47,17 +31,8 @@
 		Includes all users:
 		{%  if usergroup.isIncludesUsers %}
 			Yes
-			<form method="post" action="">
-				<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-				<input type="hidden" name="action" value="removeusers">
-				<input type="submit" value="Remove!">
-			</form>
 		{%  else %}
 			No
-			<form method="post" action="">
-				<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-				<input type="hidden" name="action" value="addusers">
-				<input type="submit" value="Add!">
 			</form>
 		{%  endif %}
 	</p>
@@ -66,18 +41,8 @@
 		Includes verified all users:
 		{%  if usergroup.isIncludesVerifiedUsers %}
 			Yes
-			<form method="post" action="">
-				<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-				<input type="hidden" name="action" value="removeverifiedusers">
-				<input type="submit" value="Remove!">
-			</form>
 		{%  else %}
 			No
-			<form method="post" action="">
-				<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-				<input type="hidden" name="action" value="addverifiedusers">
-				<input type="submit" value="Add!">
-			</form>
 		{%  endif %}
 	</p>
 
@@ -87,84 +52,27 @@
 		<tr>
 			<th>Extension</th>
 			<th>ID</th>
-				<th>&nbsp;</th>
 		</tr>
 		{% for userpermission in userpermissions %}
 			<tr>
 				<td>{{ userpermission.userPermissionExtensionID }}</td>
 				<td>{{ userpermission.userPermissionKey }}</td>
-				<td>
-					<form method="post" action="">
-						<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-						<input type="hidden" name="action" value="removepermission">
-						<input type="hidden" name="extension" value="{{ userpermission.userPermissionExtensionID }}">
-						<input type="hidden" name="permission" value="{{ userpermission.userPermissionKey }}">
-						<input type="submit" value="Remove!">
-					</form>
-				</td>
 			</tr>
 		{% endfor %}
 	</table>
-
-	<h3>Add User Permissions</h3>
-
-	{%  if  userpermissionstoadd %}
-		<table class="data">
-			<tr>
-				<th>Extension</th>
-				<th>ID</th>
-				<th>&nbsp;</th>
-			</tr>
-			{% for userpermission in userpermissionstoadd %}
-				<tr>
-					<td>{{ userpermission.userPermissionExtensionID }}</td>
-					<td>{{ userpermission.userPermissionKey }}</td>
-					<td>
-						<form method="post" action="">
-							<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-							<input type="hidden" name="action" value="addpermission">
-							<input type="hidden" name="extension" value="{{ userpermission.userPermissionExtensionID }}">
-							<input type="hidden" name="permission" value="{{ userpermission.userPermissionKey }}">
-							<input type="submit" value="Add!">
-						</form>
-					</td>
-				</tr>
-			{% endfor %}
-		</table>
-	{%  else %}
-		<p>No more to add.</p>
-	{%  endif %}
 
 	<h3>Users</h3>
 
 	<table class="data">
 		<tr>
 			<th>Username</th>
-			<th>&nbsp;</th>
 		</tr>
 		{% for user in users %}
 			<tr {% if loop.index is even %}class="alternative"{% endif %}>
 				<td><a href="/admin/user/{{  user.username }}">{{ user.username }}</a></td>
-				<td>
-					<form method="post" action="">
-						<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-						<input type="hidden" name="action" value="removeuser">
-						<input type="hidden" name="id" value="{{ user.id }}">
-						<input type="submit" value="Remove!">
-					</form>
-				</td>
 			</tr>
 		{% endfor %}
 	</table>
 
-	<h3>Add User</h3>
-
-	<form action="" method="post">
-
-		<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
-		<input type="hidden" name="action" value="adduser">
-		<input type="text" name="username" value="">
-		<input type="submit" value="Add Username!">
-	</form>
 
 {% endblock %}
