@@ -5,6 +5,7 @@ namespace site\controllers;
 use models\UserGroupModel;
 use repositories\builders\UserGroupRepositoryBuilder;
 use repositories\UserGroupRepository;
+use repositories\UserPermissionsRepository;
 use Silex\Application;
 use site\forms\AdminUserGroupNewForm;
 use site\forms\SiteEditProfileForm;
@@ -54,8 +55,15 @@ class AdminController {
 
 	function listUsers(Application $app) {
 
-		return $app['twig']->render('site/admin/listUsers.html.twig', array(
 
+		$upr = new UserPermissionsRepository($app['extensions']);
+
+
+
+		return $app['twig']->render('site/admin/listUsers.html.twig', array(
+				'userPermissionForAnonymous'=>$upr->getPermissionsForAnonymousInSite($app['currentSite'], false, false)->getPermissions(),
+				'userPermissionForAnyUser'=>$upr->getPermissionsForAnyUserInSite($app['currentSite'], false, false)->getPermissions(),
+				'userPermissionForAnyVerifiedUser'=>$upr->getPermissionsForAnyVerifiedUserInSite($app['currentSite'], false, false)->getPermissions(),
 			));
 
 	}

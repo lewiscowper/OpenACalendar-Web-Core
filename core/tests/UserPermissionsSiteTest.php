@@ -83,6 +83,15 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel, true);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
+		$permissions = $userPerRepo->getPermissionsForAnonymousInSite($siteModel, false, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForAnyUserInSite($siteModel, false, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForAnyVerifiedUserInSite($siteModel, false, false);
+		$this->assertEquals(1, count($permissions->getPermissions()));
+
 	}
 
 	function testSiteOwnerSpecificEdit() {
@@ -153,6 +162,14 @@ class UserPermissionsSiteTest extends \PHPUnit_Framework_TestCase {
 		$permissions = $userPerRepo->getPermissionsForUserInSite($userUnverified, $siteModel, true);
 		$this->assertEquals(0, count($permissions->getPermissions()));
 
+		$permissions = $userPerRepo->getPermissionsForAnonymousInSite($siteModel, false, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForAnyUserInSite($siteModel, false, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
+
+		$permissions = $userPerRepo->getPermissionsForAnyVerifiedUserInSite($siteModel, false, false);
+		$this->assertEquals(0, count($permissions->getPermissions()));
 	}
 
 }
